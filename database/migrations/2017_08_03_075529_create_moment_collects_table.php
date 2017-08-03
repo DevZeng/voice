@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateOrdersTable extends Migration
+class CreateMomentCollectsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,10 @@ class CreateOrdersTable extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
+        Schema::create('moment_collects', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('auth_id');
             $table->unsignedInteger('moment_id');
-            $table->string('number');
-            $table->tinyInteger('state')->default(0);
-            $table->string('prepay_id');
-            $table->string('transaction_id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ class CreateOrdersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        Schema::dropIfExists('moment_collects');
     }
 }

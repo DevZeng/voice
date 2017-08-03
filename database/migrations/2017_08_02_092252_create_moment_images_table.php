@@ -15,6 +15,8 @@ class CreateMomentImagesTable extends Migration
     {
         Schema::create('moment_images', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('moment_id');
+            $table->string('url');
             $table->timestamps();
         });
     }
