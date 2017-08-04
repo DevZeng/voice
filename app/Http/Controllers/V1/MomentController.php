@@ -99,6 +99,7 @@ class MomentController extends Controller
             $moments[$i]->images = $moments[$i]->images();
             $moments[$i]->commentCount = $moments[$i]->comments()->count();
             $moments[$i]->likeCount = $moments[$i]->likes()->count();
+            $moments[$i]->isLike= $moments[$i]->likes()->where('auth_id','=',getUserId(Input::get('_token')))->count();
         }
     }
     public function addComment(CommentPost $request)
@@ -183,8 +184,8 @@ class MomentController extends Controller
         $moment->hotComments = $hotComment;
         $moment->newComments = $newsComment;
         $moment->commentCount = $moment->comments()->count();
-        $moment->like= $moment->likes()->where('auth_id','=',getUserId(Input::get('_token')))->count();
-        $moment->collect= $moment->collects()->where('auth_id','=',getUserId(Input::get('_token')))->count();
+        $moment->isLike= $moment->likes()->where('auth_id','=',getUserId(Input::get('_token')))->count();
+        $moment->isCollect= $moment->collects()->where('auth_id','=',getUserId(Input::get('_token')))->count();
         return response()->json([
             'code'=>'200',
             'msg'=>'success',
