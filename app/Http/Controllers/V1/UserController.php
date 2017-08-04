@@ -34,6 +34,7 @@ class UserController extends Controller
             $ouser->province = $user->province;
             $ouser->avatarUrl = $user->avatarUrl;
             $ouser->open_id = $user->openId;
+            $ouser->warehouse_id = $warehouse->id;
             if($ouser->save()){
                 $uid = uniqid();
                 $warehouse_id = $warehouse->id;
