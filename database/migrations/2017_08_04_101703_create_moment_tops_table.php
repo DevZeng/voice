@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMomentImagesTable extends Migration
+class CreateMomentTopsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateMomentImagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('moment_images', function (Blueprint $table) {
+        Schema::create('moment_tops', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('warehouse_id');
             $table->unsignedInteger('moment_id');
-            $table->string('url');
-            $table->string('base_url');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateMomentImagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('moment_images');
+        Schema::dropIfExists('moment_tops');
     }
 }

@@ -31,7 +31,8 @@ class MomentController extends Controller
             if (!empty($img)) {
                 for ($i = 0; $i<count($img);$i++){
                     $image = new MomentImage();
-                    $image->url = $img[$i];
+                    $image->url = setUrl($img[$i]);
+                    $image->base_url = $img[$i];
                     $image->moment_id = $moment->id;
                     $image->save();
                 }

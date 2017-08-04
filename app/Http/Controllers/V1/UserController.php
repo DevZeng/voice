@@ -36,7 +36,7 @@ class UserController extends Controller
             $ouser->open_id = $user->openId;
             $ouser->warehouse_id = $warehouse->id;
             if($ouser->save()){
-                $uid = uniqid();
+                $uid = Input::get('_token');
                 $warehouse_id = $warehouse->id;
                 $data = [
                     'user_id'=>$ouser->id,
@@ -51,7 +51,7 @@ class UserController extends Controller
                 ]);
             }
         }else{
-            $uid = uniqid();
+            $uid = Input::get('_token');
             $warehouse_id = $warehouse->id;
             $data = [
                 'user_id'=>$info->id,
@@ -91,7 +91,7 @@ class UserController extends Controller
             $ouser->open_id = $user->openId;
             $ouser->warehouse_id = $warehouse_id;
             if($ouser->save()){
-                $uid = uniqid();
+                $uid = Input::get('_token');
 
                 $data = [
                     'user_id'=>$ouser->id,
@@ -106,7 +106,7 @@ class UserController extends Controller
                 ]);
             }
         }else{
-            $uid = uniqid();
+            $uid = Input::get('_token');
             $data = [
                 'user_id'=>$info->id,
                 'warehouse_id'=>$warehouse_id
@@ -120,5 +120,20 @@ class UserController extends Controller
             ]);
         }
     }
-
+    public function getToken()
+    {
+        $warehouse = Warehouse::where('app_id','=',Input::get('app_id'))->first();
+        $uid = uniqid();
+        $data = [
+            'user_id'=>0,
+            'warehouse_id'=>$warehouse->id
+        ];
+        Redis::set($uid,serialize($data));
+        Redis::expire($uid,3600);
+        return response()->json([
+            'code'=>'200',
+            'msg'=>'success',
+            'data'=>$uid
+        ]);
+    }
 }

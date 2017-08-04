@@ -27,7 +27,7 @@ class OrderController extends Controller
         $order->auth_id = $auth_id;
         $order->warehouse_id = $warehouse_id;
         $order->number = Input::get('number');
-        $data = $payment->pay(Input::get('number'),'发布动态',(10*100));
+        $data = $payment->pay(Input::get('number'),'发布动态',(0.01*100));
         $swap = json_decode($data);
         $order->prepay_id = $swap->package['prepay_id'];
         if ($order->save()){
