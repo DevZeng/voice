@@ -16,6 +16,7 @@ class CreateMomentCommentsTable extends Migration
         Schema::create('moment_comments', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('moment_id');
+            $table->unsignedInteger('comment_id');
             $table->string('content');
             $table->integer('like')->default(0);
             $table->unsignedInteger('auth_id');
