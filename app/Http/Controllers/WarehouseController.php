@@ -14,6 +14,11 @@ class WarehouseController extends Controller
     {
         $warehouse = Warehouse::where('app_id','=',Input::get('app_id'))->first();
         $adverts = Advert::where('warehouse_id','=',$warehouse->id)->get();
+        if (!empty($adverts)){
+            for ($i=0;$i<count($adverts);$i++){
+                $adverts[$i]->url = setUrl($adverts[$i]->url);
+            }
+        }
         return response()->json([
             'code'=>'200',
             'msg'=>'success',
