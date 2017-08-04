@@ -42,7 +42,7 @@ class WxPay
             'body' => $body,
             'out_trade_no' => $out_trade_no,
             'total_fee' => $total_fee,
-            'notify_url' => 'http://119.23.202.220/api/pay/notify',
+            'notify_url' => 'http://119.23.202.220/api/v1/pay/notify',
             'openid' => $this->openid,
             'trade_type' => 'JSAPI'
 //            'spbill_create_ip' =>

@@ -36,10 +36,24 @@ class MomentController extends Controller
                     $image->save();
                 }
             }
-            return response()->json([
-                'code'=>'200',
-                'msg'=>'success'
-            ]);
+            if ($moment->type==2){
+                $number = self::makePaySn(getUserId($request->get('_token')));
+                return response()->json([
+                    'code'=>'200',
+                    'msg'=>'success',
+                    'data'=>[
+                        'number'=>$number,
+                        'moment_id'=>$moment->id
+                    ]
+                ]);
+            }else{
+                return response()->json([
+                    'code'=>'200',
+                    'msg'=>'success',
+                    'data'=>''
+                ]);
+            }
+
         }
     }
     public function testSet()

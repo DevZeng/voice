@@ -18,8 +18,10 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('moment_id');
             $table->string('number');
             $table->tinyInteger('state')->default(0);
-            $table->string('prepay_id');
-            $table->string('transaction_id');
+            $table->string('prepay_id')->nullable();
+            $table->string('transaction_id')->nullable();
+            $table->unsignedInteger('auth_id');
+            $table->unsignedInteger('warehouse_id');
             $table->timestamps();
         });
     }
