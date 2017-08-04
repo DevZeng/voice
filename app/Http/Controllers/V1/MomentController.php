@@ -91,6 +91,7 @@ class MomentController extends Controller
         $comment = new MomentComment();
         $comment->moment_id = $request->get('moment_id');
         $comment->content = $request->get('content');
+        $comment->comment_id = $request->get('comment_id',0);
         $comment->auth_id = getUserId($request->get('_token'));
         if ($comment->save()){
             return response()->json([
@@ -99,27 +100,56 @@ class MomentController extends Controller
             ]);
         }
     }
-    public function likeMoment($id)
+    public function collectMoment($moment_id)
     {
-        $momentLike = new MomentLike();
-        $momentLike->auth_id = getUserId(Input::get('_token'));
-        $momentLike->moment_id = $id;
-        if ($momentLike->save()){
+        $auth_id = getUserId(Input::get('_token'));
+        $collect = MomentCollect::where([
+            'auth_id'=>$auth_id,
+            'moment_id'=>$moment_id
+        ])->first();
+        if (!empty($collect)){
+            $collect = new MomentCollect();
+            $collect->auth_id = $auth_id;
+            $collect->moment_id = $moment_id;
+            $collect->save();
             return response()->json([
                 'code'=>'200',
-                'msg'=>'success'
+                'msg'=>'success',
+                'date'=>'1'
             ]);
         }
-    }
-    public function collectMoment($id)
-    {
-        $momentCollect = new MomentCollect();
-        $momentCollect->moment_id = $id;
-        $momentCollect->auth_id = getUserId(Input::get('_token'));
-        if ($momentCollect->save()){
+        if($collect->delete()){
             return response()->json([
                 'code'=>'200',
-                'msg'=>'success'
+                'msg'=>'success',
+                'date'=>'0'
+            ]);
+        }
+
+    }
+    public function likeMoment($moment_id)
+    {
+        $auth_id = getUserId(Input::get('_token'));
+        $like = MomentLike::where([
+            'auth_id'=>$auth_id,
+            'moment_id'=>$moment_id
+        ])->first();
+        if (!empty($like)){
+            $like = new MomentLike();
+            $like->auth_id = $auth_id;
+            $like->moment_id = $moment_id;
+            $like->save();
+            return response()->json([
+                'code'=>'200',
+                'msg'=>'success',
+                'date'=>'1'
+            ]);
+        }
+        if($like->delete()){
+            return response()->json([
+                'code'=>'200',
+                'msg'=>'success',
+                'date'=>'0'
             ]);
         }
     }

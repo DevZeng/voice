@@ -17,10 +17,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::group(['middleware'=>['api']],function (){
-   Route::post('V1/moment/add','V1\MomentController@addMoment');
-   Route::post('V1/moment/get','V1\MomentController@testGet');
-   Route::post('V1/moment/set','V1\MomentController@testSet');
+   Route::post('v1/moment/add','V1\MomentController@addMoment');
    Route::get('/v1/login/test','V1\UserController@test');
+   Route::get('/v1/login','V1\UserController@OAuthLogin');
    Route::get('/v1/moments','V1\MomentController@getMoments');
    Route::get('/v1/moment/{id}','V1\MomentController@getMoment');
+   Route::post('/v1/moment/like/{id}','V1\MomentController@likeMoment');
+   Route::post('/v1/moment/collect/{id}','V1\MomentController@collectMoment');
+   Route::post('/v1/moment/comment/add','V1\MomentController@addComment');
 });
