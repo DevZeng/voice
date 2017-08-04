@@ -26,7 +26,7 @@ class MomentController extends Controller
         $moment->auth_id = getUserId($request->get('_token'));
         $moment->warehouse_id = getWarehouseId($request->get('_token'));
         $img = $request->get('images');
-        $img = empty($img)?[]:explode(';',$img);
+//        $img = empty($img)?[]:explode(';',$img);
         if ($moment->save()){
             if (!empty($img)) {
                 for ($i = 0; $i<count($img);$i++){
