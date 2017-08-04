@@ -28,4 +28,5 @@ Route::group(['middleware'=>['api']],function (){
    Route::post('/v1/pay/notify/add','V1\OrderController@payNotify');
    Route::post('/v1/pay','V1\OrderController@pay');
    Route::post('/v1/upload','UploadController@uploadImage');
+   Route::get('/v1/adverts','WarehouseController@getAdverts');
 });

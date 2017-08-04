@@ -15,6 +15,7 @@ class CreateAdvertsTable extends Migration
     {
         Schema::create('adverts', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('warehouse_id');
             $table->string('url');
             $table->string('link');
             $table->timestamps();

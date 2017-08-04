@@ -96,6 +96,7 @@ class MomentController extends Controller
                 $moments[$i]->avatar = $user->avatarUrl;
                 $moments[$i]->userName = $user->nickname;
             }
+            $moments[$i]->images = $moments[$i]->images();
             $moments[$i]->commentCount = $moments[$i]->comments()->count();
             $moments[$i]->likeCount = $moments[$i]->likes()->count();
         }
