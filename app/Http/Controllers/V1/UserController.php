@@ -23,8 +23,7 @@ class UserController extends Controller
         $encryptedData = $request->get('encryptedData');
         $iv = $request->get('iv');
         $sessionKey = $wxxcx->getSessionKey($code);
-        $wxxcx->decode($encryptedData,$iv);
-        $user = $wxxcx->getUserInfo($encryptedData,$iv);
+        $user = $wxxcx->decode($encryptedData,$iv);
         $user = json_decode($user);
         $info = OAuthUser::where('open_id','=',$user->openId)->first();
         if(empty($info)){
