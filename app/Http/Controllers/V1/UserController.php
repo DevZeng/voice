@@ -17,7 +17,8 @@ class UserController extends Controller
     //
     public function OAuthLogin(Request $request)
     {
-        $wxxcx = new Wxxcx();
+        $warehouse = Warehouse::where('app_id','=',$request->get('app_id'))->first();
+        $wxxcx = new Wxxcx($warehouse->app_id,$warehouse->secret);
         $code = $request->get('code');
         $encryptedData = $request->get('encryptedData');
         $iv = $request->get('iv');
@@ -35,7 +36,7 @@ class UserController extends Controller
             $ouser->open_id = $user->openId;
             if($ouser->save()){
                 $uid = uniqid();
-                $warehouse_id = Warehouse::where('app_id','=',$request->get('app_id'))->pluck('id')->first();
+                $warehouse_id = $warehouse->id;
                 $data = [
                     'user_id'=>$ouser->id,
                     'warehouse_id'=>$warehouse_id
@@ -50,7 +51,7 @@ class UserController extends Controller
             }
         }else{
             $uid = uniqid();
-            $warehouse_id = Warehouse::where('app_id','=',$request->get('app_id'))->pluck('id')->first();
+            $warehouse_id = $warehouse->id;
             $data = [
                 'user_id'=>$info->id,
                 'warehouse_id'=>$warehouse_id

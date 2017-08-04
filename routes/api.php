@@ -19,7 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware'=>['api']],function (){
    Route::post('v1/moment/add','V1\MomentController@addMoment');
    Route::get('/v1/login/test','V1\UserController@test');
-   Route::get('/v1/login','V1\UserController@OAuthLogin');
+   Route::post('/v1/login','V1\UserController@OAuthLogin');
    Route::get('/v1/moments','V1\MomentController@getMoments');
    Route::get('/v1/moment/{id}','V1\MomentController@getMoment');
    Route::post('/v1/moment/like/{id}','V1\MomentController@likeMoment');
