@@ -23,3 +23,9 @@ if (!function_exists('getUserId')){
         return $data['user_id'];
     }
 }
+if(!function_exists('setUrl')){
+    function setUrl($path)
+    {
+        return env('assets').'/'.$path;
+    }
+}
