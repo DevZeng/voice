@@ -130,7 +130,7 @@ class MomentController extends Controller
             'moment_id'=>$moment_id,
             'warehouse_id'=>$warehouse_id
         ])->first();
-        if (!empty($collect)){
+        if (empty($collect)){
             $collect = new MomentCollect();
             $collect->auth_id = $auth_id;
             $collect->moment_id = $moment_id;
@@ -159,7 +159,7 @@ class MomentController extends Controller
             'moment_id'=>$moment_id,
             'warehouse_id'=>$warehouse_id
         ])->first();
-        if (!empty($like)){
+        if (empty($like)){
             $like = new MomentLike();
             $like->auth_id = $auth_id;
             $like->moment_id = $moment_id;
