@@ -143,8 +143,11 @@ class UserController extends Controller
         $page = Input::get('page',1);
         $state = Input::get('state',2);
         $auth_id = getUserId(Input::get('_token'));
-        $moments = Moment::where('auth_id','=',$auth_id)->where('state','=',$state)->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->toSql();
-        echo $page.'.'.$auth_id;
+        $moments = Moment::where([
+            'auth_id'=>$auth_id,
+            'state'=>$state
+        ])->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->toSql();
+        dd($moments);
         $this->formatMoments($moments);
         return response()->json([
             'code'=>'200',
