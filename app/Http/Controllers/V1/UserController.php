@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\V1;
 
 use App\Libraries\Wxxcx;
+use App\Models\Moment;
 use App\Models\MomentCollect;
 use App\Models\MomentLike;
 use App\Models\OAuthUser;
@@ -138,10 +139,32 @@ class UserController extends Controller
     }
     public function getMoments()
     {
+        $limit = 10;
+        $page = Input::get('page',1);
+        $state = Input::get('state',2);
         $auth_id = getUserId(Input::get('_token'));
         $auth = OAuthUser::find($auth_id);
-        $moments = $auth->moments()->get();
+        $moments = $auth->moments()->where('state','=',$state)->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
         $this->formatMoments($moments);
+        return response()->json([
+            'code'=>'200',
+            'msg'=>'success',
+            'data'=>$moments
+        ]);
+    }
+    public function getCollects()
+    {
+        $limit = 10;
+        $page = Input::get('page',1);
+        $auth_id = getUserId(Input::get('_token'));
+        $collect_id = MomentCollect::where('auth_id','=',$auth_id)->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
+        $moments = Moment::whereIn('id',$collect_id)->get();
+        $this->formatCollectMoments($moments);
+        return response()->json([
+            'code'=>'200',
+            'msg'=>'success',
+            'data'=>$moments
+        ]);
     }
     public function formatMoments(&$moments)
     {
@@ -150,9 +173,23 @@ class UserController extends Controller
             return false;
         }
         for ($i = 0; $i < $length; $i++){
-            $moments->content = mb_substr($moments->content,0,100,'UTF-8');
-//            $moments->likeCount = $moments
+            $moments->content = mb_substr($moments->content,0,200,'UTF-8');
+            $moments->likeCount = $moments->likes()->count();
+            $moments->commentCount = $moments->comments->count();
+            $moments->time = getTime($moments->created_at);
         }
 
+    }
+    public function formatCollectMoments(&$moments)
+    {
+        $length = count($moments);
+        if ($length==0){
+            return false;
+        }
+        for ($i = 0; $i < $length; $i++){
+            $moments->content = mb_substr($moments->content,0,200,'UTF-8');
+            $moments->likeCount = $moments->likes()->count();
+            $moments->commentCount = $moments->comments->count();
+        }
     }
 }
