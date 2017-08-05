@@ -159,7 +159,7 @@ class UserController extends Controller
         $limit = 10;
         $page = Input::get('page',1);
         $auth_id = getUserId(Input::get('_token'));
-        $collect_id = MomentCollect::where('auth_id','=',$auth_id)->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
+        $collect_id = MomentCollect::where('auth_id','=',$auth_id)->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->pluck('moment_id');
         $moments = Moment::whereIn('id',$collect_id)->get();
         $this->formatCollectMoments($moments);
         return response()->json([
