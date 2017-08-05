@@ -145,6 +145,7 @@ class UserController extends Controller
         $auth_id = getUserId(Input::get('_token'));
         $auth = OAuthUser::find($auth_id);
         $moments = $auth->moments()->where('state','=',$state)->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
+        dd($moments);
         $this->formatMoments($moments);
         return response()->json([
             'code'=>'200',
