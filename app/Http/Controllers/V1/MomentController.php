@@ -134,6 +134,7 @@ class MomentController extends Controller
             $collect = new MomentCollect();
             $collect->auth_id = $auth_id;
             $collect->moment_id = $moment_id;
+            $collect->warehouse_id = $warehouse_id;
             $collect->save();
             return response()->json([
                 'code'=>'200',
@@ -163,6 +164,7 @@ class MomentController extends Controller
             $like = new MomentLike();
             $like->auth_id = $auth_id;
             $like->moment_id = $moment_id;
+            $like->warehouse_id = $warehouse_id;
             $like->save();
             return response()->json([
                 'code'=>'200',
