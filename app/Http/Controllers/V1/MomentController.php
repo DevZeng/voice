@@ -223,6 +223,7 @@ class MomentController extends Controller
             return false;
         }
         for ($i = 0; $i<$length ;$i++){
+            $comments[$i]->like = intval($comments[$i]->like);
             $user = $comments[$i]->user()->first();
             $comments[$i]->avatar = $user->avatarUrl;
             $comments[$i]->userName = $user->nickname;
