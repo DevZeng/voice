@@ -139,14 +139,14 @@ class MomentController extends Controller
             return response()->json([
                 'code'=>'200',
                 'msg'=>'success',
-                'date'=>'1'
+                'data'=>'1'
             ]);
         }
         if($collect->delete()){
             return response()->json([
                 'code'=>'200',
                 'msg'=>'success',
-                'date'=>'0'
+                'data'=>'0'
             ]);
         }
 
@@ -169,14 +169,14 @@ class MomentController extends Controller
             return response()->json([
                 'code'=>'200',
                 'msg'=>'success',
-                'date'=>'1'
+                'data'=>'1'
             ]);
         }
         if($like->delete()){
             return response()->json([
                 'code'=>'200',
                 'msg'=>'success',
-                'date'=>'0'
+                'data'=>'0'
             ]);
         }
     }
