@@ -175,10 +175,10 @@ class UserController extends Controller
             return false;
         }
         for ($i = 0; $i < $length; $i++){
-            $moments->content = mb_substr($moments->content,0,200,'UTF-8');
-            $moments->likeCount = $moments->likes()->count();
-            $moments->commentCount = $moments->comments->count();
-            $moments->time = getTime($moments->created_at);
+            $moments[$i]->content = mb_substr($moments[$i]->content,0,200,'UTF-8');
+            $moments[$i]->likeCount = $moments[$i]->likes()->count();
+            $moments[$i]->commentCount = $moments[$i]->comments->count();
+            $moments[$i]->time = getTime($moments[$i]->created_at);
         }
 
     }
@@ -189,9 +189,9 @@ class UserController extends Controller
             return false;
         }
         for ($i = 0; $i < $length; $i++){
-            $moments->content = mb_substr($moments->content,0,200,'UTF-8');
-            $moments->likeCount = $moments->likes()->count();
-            $moments->commentCount = $moments->comments->count();
+            $moments[$i]->content = mb_substr($moments[$i]->content,0,200,'UTF-8');
+            $moments[$i]->likeCount = $moments[$i]->likes()->count();
+            $moments[$i]->commentCount = $moments[$i]->comments->count();
         }
     }
 }
