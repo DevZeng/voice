@@ -23,7 +23,7 @@ class MomentController extends Controller
         $moment = new Moment();
         $moment->content = $request->get('content');
         $moment->type = $request->get('type');
-        if ($moment->type==2){
+        if ($moment->type==1){
             $moment->state = 1;
         }
         $moment->anonymous = $anonymous;
