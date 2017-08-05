@@ -4,6 +4,7 @@ namespace App\Http\Controllers\V1;
 
 use App\Libraries\WxPay;
 use App\Models\Moment;
+use App\Models\MomentComment;
 use App\Models\OAuthUser;
 use App\Models\Order;
 use App\Models\Warehouse;
@@ -64,6 +65,9 @@ class OrderController extends Controller
         if ($sign == $wx['sign']){
             $order = Order::where(['number'=>$wx['out_trade_no']])->first();
             if ($order->state==0){
+                $moment = Moment::find($order->moment_id);
+                $moment->state = 1;
+                $moment->save();
                 $order->state = 1;
                 $order->transaction_id = $wx['transaction_id'];
                 if ($order->save()){

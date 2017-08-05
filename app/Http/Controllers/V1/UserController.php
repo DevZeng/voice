@@ -189,6 +189,11 @@ class UserController extends Controller
             return false;
         }
         for ($i = 0; $i < $length; $i++){
+            if ($moments[$i]->anonymous!=1){
+                $user = $moments[$i]->user()->first();
+                $moments[$i]->avatar = $user->avatarUrl;
+                $moments[$i]->userName = $user->nickname;
+            }
             $moments[$i]->content = mb_substr($moments[$i]->content,0,200,'UTF-8');
             $moments[$i]->likeCount = $moments[$i]->likes()->count();
             $moments[$i]->commentCount = $moments[$i]->comments->count();
