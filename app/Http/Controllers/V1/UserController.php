@@ -146,7 +146,8 @@ class UserController extends Controller
         $moments = Moment::where([
             'auth_id'=>$auth_id,
             'state'=>$state
-        ])->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->toSql();
+        ])->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
+        echo $auth_id.'.'.$state;
         dd($moments);
         $this->formatMoments($moments);
         return response()->json([
