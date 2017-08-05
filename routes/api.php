@@ -30,4 +30,6 @@ Route::group(['middleware'=>['api']],function (){
    Route::post('/v1/upload','UploadController@uploadImage');
    Route::get('/v1/adverts','WarehouseController@getAdverts');
    Route::get('/v1/token','V1\UserController@getToken');
+   Route::get('/v1/my/moments','V1\UserController@getMoments');
+   Route::get('/v1/my/moments/collect','V1\UserController@getCollects');
 });

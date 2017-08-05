@@ -136,4 +136,21 @@ class UserController extends Controller
             'data'=>$uid
         ]);
     }
+    public function getMoments()
+    {
+        $auth_id = getUserId(Input::get('_token'));
+        $auth = OAuthUser::find($auth_id);
+        $moments = $auth->moments()->get();
+        $this->formatMoments($moments);
+    }
+    public function formatMoments(&$moments)
+    {
+        $length = count($moments);
+        if ($length==0){
+            return false;
+        }
+        for ($i = 0; $i < $length; $i++){
+
+        }
+    }
 }

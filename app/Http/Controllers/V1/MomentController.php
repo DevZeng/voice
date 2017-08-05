@@ -120,9 +120,11 @@ class MomentController extends Controller
     public function collectMoment($moment_id)
     {
         $auth_id = getUserId(Input::get('_token'));
+        $warehouse_id = getWarehouseId(Input::get('_token'));
         $collect = MomentCollect::where([
             'auth_id'=>$auth_id,
-            'moment_id'=>$moment_id
+            'moment_id'=>$moment_id,
+            'warehouse_id'=>$warehouse_id
         ])->first();
         if (!empty($collect)){
             $collect = new MomentCollect();
@@ -147,9 +149,11 @@ class MomentController extends Controller
     public function likeMoment($moment_id)
     {
         $auth_id = getUserId(Input::get('_token'));
+        $warehouse_id = getWarehouseId(Input::get('_token'));
         $like = MomentLike::where([
             'auth_id'=>$auth_id,
-            'moment_id'=>$moment_id
+            'moment_id'=>$moment_id,
+            'warehouse_id'=>$warehouse_id
         ])->first();
         if (!empty($like)){
             $like = new MomentLike();
@@ -183,6 +187,7 @@ class MomentController extends Controller
         $this->formatComments($hotComment);
         $this->formatComments($newsComment);
         $moment->hotComments = $hotComment;
+        $moment->images = $moment->images()->get();
         $moment->newComments = $newsComment;
         $moment->commentCount = $moment->comments()->count();
         $moment->isLike= $moment->likes()->where('auth_id','=',getUserId(Input::get('_token')))->count();

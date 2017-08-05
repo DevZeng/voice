@@ -17,6 +17,6 @@ class OAuthUser extends Model
     }
     public function collects()
     {
-
+        return $this->hasMany('App\Models\MomentCollect','auth_id','id');
     }
 }
