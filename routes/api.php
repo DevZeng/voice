@@ -21,6 +21,7 @@ Route::group(['middleware'=>['api']],function (){
    Route::get('/v1/login/test','V1\UserController@test');
    Route::post('/v1/login','V1\UserController@OAuthLogin');
    Route::get('/v1/moments','V1\MomentController@getMoments');
+   Route::get('/v1/moments/top','V1\MomentController@getTopMoments');
    Route::get('/v1/moment/{id}','V1\MomentController@getMoment');
    Route::post('/v1/moment/like/{id}','V1\MomentController@likeMoment');
    Route::post('/v1/moment/collect/{id}','V1\MomentController@collectMoment');

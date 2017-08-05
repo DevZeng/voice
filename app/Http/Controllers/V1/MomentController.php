@@ -81,7 +81,19 @@ class MomentController extends Controller
         $page = Input::get('page',1);
         $type = Input::get('type',1);
         $warehouse = Warehouse::find(getWarehouseId(Input::get('_token')));
-        $moments = $warehouse->moments()->where('type','=',$type)->where('state','=','2')->limit($limit)->offset(($page-1)*$limit)->get();
+        $moments = $warehouse->moments()->where('top','=','0')->where('type','=',$type)->where('state','=','2')->limit($limit)->offset(($page-1)*$limit)->get();
+        $this->formatMoments($moments);
+        return response()->json([
+            'code'=>'200',
+            'msg'=>'success',
+            'data'=>$moments
+        ]);
+    }
+    public function getTopMoments()
+    {
+        $warehouse = Warehouse::find(getWarehouseId(Input::get('_token')));
+        $type = Input::get('type',2);
+        $moments = $warehouse->moments()->where('top','=','1')->where('type','=',$type)->where('state','=','2')->get();
         $this->formatMoments($moments);
         return response()->json([
             'code'=>'200',
