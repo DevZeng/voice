@@ -36,6 +36,9 @@ if(!function_exists('getTime')){
         $time = time()-$time;
         if ($time<60*60){
             $minutes = intval(floor($time/60));
+            if($minutes==0){
+                $minutes=1;
+            }
             return $minutes.'分钟前';
         }else if($time>60*60&&$time<60*60*24){
             $hour = intval(floor($time/(60*60)));
