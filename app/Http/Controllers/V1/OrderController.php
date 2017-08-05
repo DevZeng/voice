@@ -28,8 +28,7 @@ class OrderController extends Controller
         $order->warehouse_id = $warehouse_id;
         $order->number = Input::get('number');
         $data = $payment->pay(Input::get('number'),'发布动态',(0.01*100));
-        $swap = json_decode($data);
-        $order->prepay_id = $swap->package['prepay_id'];
+        $order->prepay_id = $payment->getPrepayId();
         if ($order->save()){
             return json_encode([
                 'code'=>'200',
@@ -74,5 +73,10 @@ class OrderController extends Controller
 
         }
         return 'ERROR';
+    }
+    public function test()
+    {
+        $data = array('appId' => 'wxfec807d3f372360b', 'timeStamp' => '1501924683', 'nonceStr' => 'e2w5fsjx6z2m8j5rq9wpxyk6z8c3zmsm', 'package' => 'prepay_id=wx20170805171803e52e5f40e80400113237', 'signType' => 'MD5', 'paySign' => 'A5558BEE3D78EEA7A0B9BF0C79C006AB');
+        $package = $data['package'];
     }
 }

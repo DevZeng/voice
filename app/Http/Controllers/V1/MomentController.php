@@ -227,4 +227,21 @@ class MomentController extends Controller
             'data'=>$comments
         ]);
     }
+    public function likeComments($id)
+    {
+        $comment = MomentComment::find($id);
+        if (empty($comment)){
+            return response()->json([
+                'code'=>'400',
+                'msg'=>'Not Found'
+            ]);
+        }
+        $comment->like();
+        if ($comment->save()){
+            return response()->json([
+                'code'=>'200',
+                'msg'=>'success'
+            ]);
+        }
+    }
 }
