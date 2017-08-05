@@ -32,8 +32,8 @@ if(!function_exists('setUrl')){
 if(!function_exists('getTime')){
     function getTime($date)
     {
-        $time =
-        $time = time()-;
+        $time = time();
+        $time = time()-1;
         $days = intval(floor($time/86400));
         if ($days<=30){
             if($days==0){
