@@ -23,6 +23,9 @@ class MomentController extends Controller
         $moment = new Moment();
         $moment->content = $request->get('content');
         $moment->type = $request->get('type');
+        if ($moment->type==2){
+            $moment->state = 1;
+        }
         $moment->anonymous = $anonymous;
         $moment->auth_id = getUserId($request->get('_token'));
         $moment->warehouse_id = getWarehouseId($request->get('_token'));

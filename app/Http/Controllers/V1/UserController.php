@@ -147,8 +147,6 @@ class UserController extends Controller
             'auth_id'=>$auth_id,
             'state'=>$state
         ])->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
-        echo $auth_id.'.'.$state;
-        dd($moments);
         $this->formatMoments($moments);
         return response()->json([
             'code'=>'200',
