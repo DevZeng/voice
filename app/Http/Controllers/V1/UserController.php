@@ -150,7 +150,8 @@ class UserController extends Controller
             return false;
         }
         for ($i = 0; $i < $length; $i++){
-
+            $moments->content = mb_substr($moments->content,0,100,'UTF-8');
+//            $moments->likeCount = $moments
         }
     }
 }
