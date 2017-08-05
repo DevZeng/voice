@@ -153,5 +153,6 @@ class UserController extends Controller
             $moments->content = mb_substr($moments->content,0,100,'UTF-8');
 //            $moments->likeCount = $moments
         }
+
     }
 }

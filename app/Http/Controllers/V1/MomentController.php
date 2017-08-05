@@ -11,6 +11,7 @@ use App\Models\MomentComment;
 use App\Models\MomentImage;
 use App\Models\MomentLike;
 use App\Models\Warehouse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
 class MomentController extends Controller
@@ -103,7 +104,7 @@ class MomentController extends Controller
             $moments[$i]->isLike= $moments[$i]->likes()->where('auth_id','=',getUserId(Input::get('_token')))->count();
         }
     }
-    public function addComment(CommentPost $request)
+    public function addComment(Request $request)
     {
         $comment = new MomentComment();
         $comment->moment_id = $request->get('moment_id');
