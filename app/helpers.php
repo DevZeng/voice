@@ -59,17 +59,29 @@ if(!function_exists('getTime')){
     }
 }
 if (!function_exists('buildCommentsTree')){
-    function buildCommentsTree($data,$node)
+    function buildCommentsTree($data,$top=0,$button=0,$tree=[])
     {
-        $tree = [];
-        foreach($data as $k => $v)
-        {
-            if($v->comment_id == $node)
-            {
-                $v->comments = buildCommentsTree($data, $v->id);
-                $tree[] = $v;
+        $length = count($data);
+        for ($i=0;$i<$length;$i++){
+            if ($data[$i]['id']==$top){
+                $top = $data[$i]['comment_id'];
+                array_unshift($tree,$data[$i]);
+                buildCommentsTree($data,$top,$button,$tree);
+            }elseif ($data[$i]['comment_id']==$button){
+                $button =$data[$i]['id'];
+                array_push($tree,$data[$i]);
+                buildCommentsTree($data,$top,$button,$tree);
             }
         }
         return $tree;
+
+    }
+}
+function getNode($data,$node)
+{
+    for ($i=0;$i<count($data);$i++){
+        if ($data[$i]['id']==$node){
+            return $data[$i];
+        }
     }
 }

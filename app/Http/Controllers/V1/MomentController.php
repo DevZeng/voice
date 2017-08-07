@@ -132,17 +132,22 @@ class MomentController extends Controller
     public function getComment($id)
     {
         $comment = MomentComment::find($id);
-        $baseComment = MomentComment::find($comment->comment_id);
-        $baseId = $baseComment->base_comment_id;
-        $baseId = ($baseId==0)?$baseComment->id:$baseId;
+        $comment_id = MomentComment::find($comment->comment_id)->auth_id;
+        $baseComment = MomentComment::find($comment->base_comment_id);
         $baseComment->like = intval($baseComment->like);
         $user = $baseComment->user()->first();
         $baseComment->avatar = $user->avatarUrl;
         $baseComment->userName = $user->nickname;
-        $comments = MomentComment::where('base_comment_id','=',$baseId)->get();
-        dd($comments);
+        $comments = MomentComment::where([
+            'base_comment_id'=>$comment->base_comment_id,
+            'auth_id'=>$comment->auth_id
+        ])->orWhere([
+            'base_comment_id'=>$comment->base_comment_id,
+            'auth_id'=>$comment_id
+        ])->get()->toArray();
         $this->formatComments($comments);
-        $tree = buildCommentsTree($comments,$id);
+        $node = getNode($comments,$id);
+        $tree = buildCommentsTree($comments,$node['comment_id'],$node['id'],[$node]);
         return response()->json([
             'code'=>'200',
             'msg'=>'success',
@@ -219,8 +224,8 @@ class MomentController extends Controller
             $moment->avatar = $user->avatarUrl;
             $moment->userName = $user->nickname;
         }
-        $hotComment = $moment->comments()->orderBy('like','DESC')->limit(3)->get();
-        $newsComment = $moment->comments()->orderBy('id','DESC')->limit(10)->get();
+        $hotComment = $moment->comments()->orderBy('like','DESC')->limit(3)->get()->toArray();
+        $newsComment = $moment->comments()->orderBy('id','DESC')->limit(10)->get()->toArray();
         $this->formatComments($hotComment);
         $this->formatComments($newsComment);
         $moment->hotComments = $hotComment;
@@ -242,13 +247,13 @@ class MomentController extends Controller
             return false;
         }
         for ($i = 0; $i<$length ;$i++){
-            $comments[$i]->like = intval($comments[$i]->like);
-            $user = $comments[$i]->user()->first();
-            $comments[$i]->avatar = $user->avatarUrl;
-            $comments[$i]->userName = $user->nickname;
-            if ($comments[$i]->reply_auth_id!=0){
+            $comments[$i]['like'] = intval($comments[$i]['like']);
+            $user = OAuthUser::find($comments[$i]['auth_id']);
+            $comments[$i]['avatar'] = $user->avatarUrl;
+            $comments[$i]['userName'] = $user->nickname;
+            if ($comments[$i]['reply_auth_id']!=0){
 //                $reply_user = OAuthUser::find($comments[$i]->)
-                $comments[$i]->reply_user_name = OAuthUser::find($comments[$i]->reply_auth_id)->nikename;
+                $comments[$i]['reply_user_name'] = OAuthUser::find($comments[$i]['reply_auth_id'])->nickname;
             }
         }
     }
