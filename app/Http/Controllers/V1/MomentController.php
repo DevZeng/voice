@@ -10,7 +10,9 @@ use App\Models\MomentCollect;
 use App\Models\MomentComment;
 use App\Models\MomentImage;
 use App\Models\MomentLike;
+use App\Models\OAuthUser;
 use App\Models\Warehouse;
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 
@@ -61,20 +63,6 @@ class MomentController extends Controller
 
         }
     }
-    public function testSet()
-    {
-        $user = ['da'=>'2','dsaf'=>'23'];
-        \Redis::set('user',serialize($user));
-    }
-    public function testGet()
-    {
-        $userId = getUserId('daf');
-        if ($userId){
-            echo $userId;
-        }else{
-            echo 'Not Found';
-        }
-    }
     public function getMoments()
     {
         $limit = 10;
@@ -121,10 +109,18 @@ class MomentController extends Controller
     }
     public function addComment(Request $request)
     {
+        $comment_id = $request->get('comment_id');
+        $comment_id = empty($comment_id)?0:$comment_id;
         $comment = new MomentComment();
         $comment->moment_id = $request->get('moment_id');
         $comment->content = $request->get('content');
-        $comment->comment_id = $request->get('comment_id',0);
+        $comment->comment_id = $comment_id;
+        if ($comment_id!=0){
+            $baseComment = MomentComment::find($comment_id);
+            $baseId = $baseComment->base_comment_id;
+            $comment->reply_auth_id = $baseComment->auth_id;
+            $comment->base_comment_id = ($baseId==0)?$baseComment->id:$baseId;
+        }
         $comment->auth_id = getUserId($request->get('_token'));
         if ($comment->save()){
             return response()->json([
@@ -132,6 +128,28 @@ class MomentController extends Controller
                 'msg'=>'success'
             ]);
         }
+    }
+    public function getComment($id)
+    {
+        $comment = MomentComment::find($id);
+        $baseComment = MomentComment::find($comment->comment_id);
+        $baseId = $baseComment->base_comment_id;
+        $baseId = ($baseId==0)?$baseComment->id:$baseId;
+        $baseComment->like = intval($baseComment->like);
+        $user = $baseComment->user()->first();
+        $baseComment->avatar = $user->avatarUrl;
+        $baseComment->userName = $user->nickname;
+        $comments = MomentComment::where('base_comment_id','=',$baseId)->get();
+        $this->formatComments($comments);
+        $tree = buildCommentsTree($comments,$id);
+        return response()->json([
+            'code'=>'200',
+            'msg'=>'success',
+            'data'=>[
+                'comment'=>$baseComment,
+                'converse'=>$tree
+            ]
+        ]);
     }
     public function collectMoment($moment_id)
     {
@@ -227,8 +245,13 @@ class MomentController extends Controller
             $user = $comments[$i]->user()->first();
             $comments[$i]->avatar = $user->avatarUrl;
             $comments[$i]->userName = $user->nickname;
+            if ($comments[$i]->reply_auth_id!=0){
+                $comments[$i]->reply_user_name = OAuthUser::find($comments)->nikename;
+            }
         }
     }
+
+
     public function getComments($id)
     {
         $page = Input::get('page',1);
@@ -257,4 +280,5 @@ class MomentController extends Controller
             ]);
         }
     }
+
 }

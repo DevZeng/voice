@@ -58,3 +58,18 @@ if(!function_exists('getTime')){
         }
     }
 }
+if (!function_exists('buildCommentsTree')){
+    function buildCommentsTree($data,$node)
+    {
+        $tree = [];
+        foreach($data as $k => $v)
+        {
+            if($v->comment_id == $node)
+            {
+                $v->comments = buildCommentsTree($data, $v->id);
+                $tree[] = $v;
+            }
+        }
+        return $tree;
+    }
+}
