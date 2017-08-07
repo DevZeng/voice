@@ -246,7 +246,8 @@ class MomentController extends Controller
             $comments[$i]->avatar = $user->avatarUrl;
             $comments[$i]->userName = $user->nickname;
             if ($comments[$i]->reply_auth_id!=0){
-                $comments[$i]->reply_user_name = OAuthUser::find($comments[$i])->nikename;
+//                $reply_user = OAuthUser::find($comments[$i]->)
+                $comments[$i]->reply_user_name = OAuthUser::find($comments[$i]->reply_auth_id)->nikename;
             }
         }
     }
