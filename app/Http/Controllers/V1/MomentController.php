@@ -218,8 +218,8 @@ class MomentController extends Controller
             $moment->avatar = $user->avatarUrl;
             $moment->userName = $user->nickname;
         }
-        $hotComment = $moment->comments()->where('comment_id','=','0')->orderBy('like','DESC')->limit(3)->get();
-        $newsComment = $moment->comments()->where('comment_id','=','0')->orderBy('id','DESC')->limit(10)->get();
+        $hotComment = $moment->comments()->orderBy('like','DESC')->limit(3)->get();
+        $newsComment = $moment->comments()->orderBy('id','DESC')->limit(10)->get();
         $this->formatComments($hotComment);
         $this->formatComments($newsComment);
         $moment->hotComments = $hotComment;
