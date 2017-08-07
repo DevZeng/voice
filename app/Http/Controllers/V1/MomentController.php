@@ -140,6 +140,7 @@ class MomentController extends Controller
         $baseComment->avatar = $user->avatarUrl;
         $baseComment->userName = $user->nickname;
         $comments = MomentComment::where('base_comment_id','=',$baseId)->get();
+        dd($comments);
         $this->formatComments($comments);
         $tree = buildCommentsTree($comments,$id);
         return response()->json([
