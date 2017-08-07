@@ -264,6 +264,7 @@ class MomentController extends Controller
         $page = Input::get('page',1);
         $limit = 10;
         $comments = MomentComment::where('moment_id','=',$id)->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
+        $this->formatComments($comments);
         return response()->json([
             'code'=>'200',
             'msg'=>'success',

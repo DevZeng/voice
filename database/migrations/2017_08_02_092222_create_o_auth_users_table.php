@@ -25,6 +25,7 @@ class CreateOAuthUsersTable extends Migration
             $table->string('avatarUrl',300)->commit('wechatAvatarUrl');
             $table->integer('birthday')->nullable()->commit('userBirthday');
             $table->string('number',20)->nullable()->commit('userNumber');
+            $table->tinyInteger('ban')->default(0);
             $table->timestamps();
         });
     }
