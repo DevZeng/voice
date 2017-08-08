@@ -274,13 +274,13 @@ class WarehouseController extends Controller
             "page"=>"/pages/index/index",
             "data"=>[
                 "keyword1"=>[
-                    "DATA"=>mb_substr($moment->content,0,50)
+                    "value"=>'你发布的动态已被审核'
                 ],
                 "keyword2"=>[
-                    "DATA"=>$moment->created_at
+                    "value"=>$moment->created_at
                 ],
                 "keyword3"=>[
-                    "DATA"=>"通过"
+                    "value"=>"通过"
                 ]
             ]
         ];
