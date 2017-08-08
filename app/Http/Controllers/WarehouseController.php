@@ -98,7 +98,7 @@ class WarehouseController extends Controller
             $user = OAuthUser::find($moment->auth_id);
             $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
             $data = [
-                "touser"=>$user->nickname,
+                "touser"=>$user->open_id,
                 "template_id"=>$warehouse->template_id,
                 "form_id"=> $moment->notify_id,
                 "page"=>"/pages/index/index",
@@ -116,7 +116,6 @@ class WarehouseController extends Controller
             ];
             $wxnotify->setAccessToken();
             $data = $wxnotify->send(json_encode($data));
-            dd($data);
             $moment->save();
         }
         return response()->json([
@@ -199,7 +198,7 @@ class WarehouseController extends Controller
             $user = OAuthUser::find($moment->auth_id);
             $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
             $data = [
-                "touser"=>$user->nickname,
+                "touser"=>$user->open_id,
                 "template_id"=>$warehouse->template_id,
                 "form_id"=> $moment->notify_id,
                 "page"=>"/pages/index/index",
