@@ -40,7 +40,7 @@
                     <div class="check-item-img-group">
                         {{--{{$images = $moment->images()->get()}}--}}
                         @foreach($moment->images()->get() as $image)
-                        <img src="{{setUrl($image->url)}}" alt="封面" class="check-item-content-img">
+                        <img src="{{$image->url}}" alt="封面" class="check-item-content-img">
                         @endforeach
                     </div>
 

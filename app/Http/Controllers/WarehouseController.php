@@ -115,7 +115,8 @@ class WarehouseController extends Controller
             ]
             ];
             $wxnotify->setAccessToken();
-            $wxnotify->send(json_encode($data));
+            $data = $wxnotify->send(json_encode($data));
+            dd($data);
             $moment->save();
         }
         return response()->json([
