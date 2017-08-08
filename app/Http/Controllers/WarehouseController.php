@@ -222,7 +222,7 @@ class WarehouseController extends Controller
                 $path = base_path().'/public/uploads/';
                 $wxpay = new WxPay($warehouse->app_id,$warehouse->m_id,$warehouse->api_key);
                 $order = Order::where('moment_id','=',$moment->id)->first();
-                $data = $wxpay->refund($order->transaction_id,$number,0.01*100,0.01*100,$warehouse->m_id,$path.$warehouse->sslCert,
+                $data = $wxpay->refund($order->transaction_id,$number,10*100,10*100,$warehouse->m_id,$path.$warehouse->sslCert,
                     $path.$warehouse->sslKey,$path.$warehouse->caInfo);
                 if ($data['return_code']=='FAIL'){
                     $order->state = 4;
