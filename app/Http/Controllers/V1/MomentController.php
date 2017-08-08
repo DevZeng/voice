@@ -174,7 +174,7 @@ class MomentController extends Controller
         $baseComment->avatar = $user->avatarUrl;
         $baseComment->userName = $user->nickname;
         $replies = $baseComment->reply()->orderBy('id','DESC')->get();
-        $this->formatReplies($replies);
+        $this->formatReplies($replies,$baseComment->auth_id);
         return response()->json([
             'code'=>'200',
             'msg'=>'success',
@@ -184,7 +184,7 @@ class MomentController extends Controller
             ]
         ]);
     }
-    public function formatReplies(&$replies)
+    public function formatReplies(&$replies,$auth_id)
     {
         $length = count($replies);
         if ($length==0){
@@ -192,8 +192,13 @@ class MomentController extends Controller
         }
         for ($i = 0; $i<$length ;$i++){
             $replies[$i]->like = intval($replies[$i]->like);
-            $replies[$i]->username = OAuthUser::find($replies[$i]->auth_id)->nickname;
-            $replies[$i]->replyUser = OAuthUser::find($replies[$i]->reply_auth_id)->nickname;
+            $user = OAuthUser::find($replies[$i]->auth_id);
+            $replies[$i]->username = $user->nickname;
+            $replies[$i]->avatarUrl = $user->avatarUrl;
+            if ($replies[$i]->reply_auth_id!=$auth_id){
+                $replies[$i]->replyUser = OAuthUser::find($replies[$i]->reply_auth_id)->nickname;
+            }
+
         }
     }
     public function collectMoment($moment_id)
