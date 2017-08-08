@@ -21,6 +21,7 @@ class CreateOrdersTable extends Migration
             $table->string('prepay_id')->nullable();
             $table->string('transaction_id')->nullable();
             $table->unsignedInteger('auth_id');
+            $table->string('remark')->nullable();
             $table->unsignedInteger('warehouse_id');
             $table->timestamps();
         });

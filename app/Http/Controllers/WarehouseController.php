@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Libraries\WxNotify;
+use App\Libraries\WxPay;
 use App\Models\Advert;
 use App\Models\Moment;
 use App\Models\MomentComment;
 use App\Models\OAuthUser;
+use App\Models\Order;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,27 +94,28 @@ class WarehouseController extends Controller
         for ($i=0;$i<count($list);$i++){
             $moment = Moment::find($list[$i]);
             $moment->state=2;
-//            $warehouse = Warehouse::find($moment->warehouse_id);
-//            $user = OAuthUser::find($moment->auth_id);
-//            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
-//            $data = [
-//                "touser"=>$user->nickname,
-//                "template_id"=>$warehouse->template_id,
-//                "page"=>"/pages/index/index",
-//                "data"=>[
-//                    "keyword1"=>[
-//                        "DATA"=>mb_substr($moment->content,0,50)
-//                    ],
-//                    "keyword2"=>[
-//                        "DATA"=>$moment->created_at
-//                    ],
-//                    "keyword3"=>[
-//                        "DATA"=>"通过"
-//                    ]
-//            ]
-//            ];
-//            $wxnotify->setAccessToken();
-//            $wxnotify->send(json_encode($data));
+            $warehouse = Warehouse::find($moment->warehouse_id);
+            $user = OAuthUser::find($moment->auth_id);
+            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
+            $data = [
+                "touser"=>$user->nickname,
+                "template_id"=>$warehouse->template_id,
+                "form_id"=> $moment->notify_id,
+                "page"=>"/pages/index/index",
+                "data"=>[
+                    "keyword1"=>[
+                        "value"=>mb_substr($moment->content,0,20)
+                    ],
+                    "keyword2"=>[
+                        "value"=>date('Y-m-d H:i:s',strtotime($moment->created_at))
+                    ],
+                    "keyword3"=>[
+                        "value"=>"通过"
+                    ]
+            ]
+            ];
+            $wxnotify->setAccessToken();
+            $wxnotify->send(json_encode($data));
             $moment->save();
         }
         return response()->json([
@@ -191,27 +194,51 @@ class WarehouseController extends Controller
         for ($i=0;$i<count($list);$i++){
             $moment = Moment::find($list[$i]);
             $moment->state=3;
-//            $warehouse = Warehouse::find($moment->warehouse_id);
-//            $user = OAuthUser::find($moment->auth_id);
-//            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
-//            $data = [
-//                "touser"=>$user->nickname,
-//                "template_id"=>$warehouse->template_id,
-//                "page"=>"/pages/index/index",
-//                "data"=>[
-//                    "keyword1"=>[
-//                        "DATA"=>mb_substr($moment->content,0,50)
-//                    ],
-//                    "keyword2"=>[
-//                        "DATA"=>$moment->created_at
-//                    ],
-//                    "keyword3"=>[
-//                        "DATA"=>"通过"
-//                    ]
-//                ]
-//            ];
-//            $wxnotify->setAccessToken();
-//            $wxnotify->send(json_encode($data));
+            $warehouse = Warehouse::find($moment->warehouse_id);
+            $user = OAuthUser::find($moment->auth_id);
+            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
+            $data = [
+                "touser"=>$user->nickname,
+                "template_id"=>$warehouse->template_id,
+                "form_id"=> $moment->notify_id,
+                "page"=>"/pages/index/index",
+                "data"=>[
+                    "keyword1"=>[
+                        "value"=>mb_substr($moment->content,0,20)
+                    ],
+                    "keyword2"=>[
+                        "value"=>date('Y-m-d H:i:s',strtotime($moment->created_at))
+                    ],
+                    "keyword3"=>[
+                        "value"=>"拒绝"
+                    ]
+                ]
+            ];
+            if($moment->type==2){
+                $number = self::makePaySn(rand(1,9));
+                $path = base_path().'/public/uploads/';
+                $wxpay = new WxPay($warehouse->app_id,$warehouse->m_id,$warehouse->api_key);
+                $order = Order::where('moment_id','=',$moment->id)->first();
+                $data = $wxpay->refund($order->transaction_id,$number,0.01*100,0.01*100,$warehouse->m_id,$path.$warehouse->sslCert,
+                    $path.$warehouse->sslKey,$path.$warehouse->caInfo);
+                if ($data['return_code']=='FAIL'){
+                    $order->state = 4;
+                    $order->remark = $data['return_msg'];
+                    $order->save();
+                }else{
+                    if ($data['result_code']=='FAIL'){
+                        $order->state = 3;
+                        $order->remark = $data['err_code'].$data['err_code_des'];
+                        $order->save();
+                    }else{
+                        $order->state = 2;
+                        $order->remark = $data['return_msg'];
+                        $order->save();
+                    }
+                }
+            }
+            $wxnotify->setAccessToken();
+            $wxnotify->send(json_encode($data));
             $moment->save();
         }
         return response()->json([
