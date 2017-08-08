@@ -262,7 +262,8 @@ class WarehouseController extends Controller
     }
     public function test()
     {
-        $moment = Moment::find(35);
+        $id = Input::get('id');
+        $moment = Moment::find($id);
         $warehouse = Warehouse::find($moment->warehouse_id);
         $user = OAuthUser::find($moment->auth_id);
         $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
