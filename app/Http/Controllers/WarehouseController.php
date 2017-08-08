@@ -277,7 +277,7 @@ class WarehouseController extends Controller
                     "value"=>'你发布的动态已被审核'
                 ],
                 "keyword2"=>[
-                    "value"=>$moment->created_at
+                    "value"=>'2017-8-8 16:00:00'
                 ],
                 "keyword3"=>[
                     "value"=>"通过"
