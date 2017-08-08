@@ -26,7 +26,7 @@ class MomentController extends Controller
         $moment = new Moment();
         $moment->content = $request->get('content');
         $moment->type = $request->get('type');
-        $moment->notify_id = $request->get('fromID');
+        $moment->notify_id = $request->get('formID');
         if ($moment->type==1){
             $moment->state = 1;
         }

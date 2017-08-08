@@ -17,8 +17,8 @@ class WarehouseController extends Controller
     //
     public function getAdverts()
     {
-        $warehouse = Warehouse::where('app_id','=',Input::get('app_id'))->first();
-        $adverts = Advert::where('warehouse_id','=',$warehouse->id)->get();
+//        $warehouse = Warehouse::where('app_id','=',Input::get('app_id'))->first();
+        $adverts = Advert::where('warehouse_id','=',getWarehouseId(Input::get('_token')))->get();
         if (!empty($adverts)){
             for ($i=0;$i<count($adverts);$i++){
                 $adverts[$i]->url = setUrl($adverts[$i]->url);
