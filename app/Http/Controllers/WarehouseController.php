@@ -311,7 +311,6 @@ class WarehouseController extends Controller
                 ]
             ]
         ];
-        return json_encode($data);
         $wxnotify->setAccessToken();
         $err = $wxnotify->send(json_encode($data));
         dd($err);
