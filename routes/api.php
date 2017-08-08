@@ -33,7 +33,7 @@ Route::group(['middleware'=>['api']],function (){
         Route::get('/v1/comment/{id}','V1\MomentController@getComment');
         Route::get('/v1/comment/like/{id}','V1\MomentController@likeComments');
         Route::post('/v1/pay','V1\OrderController@pay');
-        Route::post('/v1/upload','UploadController@uploadImage');
+
         Route::get('/v1/adverts','WarehouseController@getAdverts');
         Route::get('/v1/my/moments','V1\UserController@getMoments');
         Route::get('/v1/my/moments/collect','V1\UserController@getCollects');
@@ -42,4 +42,5 @@ Route::group(['middleware'=>['api']],function (){
    Route::post('/v1/login','V1\UserController@OAuthLogin');
    Route::get('/v1/token','V1\UserController@getToken');
    Route::get('/v1/moment/{id}','V1\MomentController@getMoment');
+    Route::post('/v1/upload','UploadController@uploadImage');
 });
