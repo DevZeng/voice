@@ -26,6 +26,8 @@ Route::group(['middleware'=>['api']],function (){
    Route::post('/v1/moment/like/{id}','V1\MomentController@likeMoment');
    Route::post('/v1/moment/collect/{id}','V1\MomentController@collectMoment');
    Route::post('/v1/moment/comment/add','V1\MomentController@addComment');
+   Route::post('/v1/moment/comment/reply','V1\MomentController@replyComment');
+   Route::get('/v1/reply/like/{id}','V1\MomentController@replyLike');
    Route::get('/v1/comments/{id}','V1\MomentController@getComments');
    Route::get('/v1/comment/{id}','V1\MomentController@getComment');
    Route::get('/v1/comment/like/{id}','V1\MomentController@likeComments');

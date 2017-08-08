@@ -5,6 +5,7 @@ namespace App\Http\Controllers\V1;
 use App\Http\Requests\CommentPost;
 use App\Http\Requests\MomentPost;
 use App\Http\Controllers\Controller;
+use App\Models\CommentReply;
 use App\Models\Moment;
 use App\Models\MomentCollect;
 use App\Models\MomentComment;
@@ -25,6 +26,7 @@ class MomentController extends Controller
         $moment = new Moment();
         $moment->content = $request->get('content');
         $moment->type = $request->get('type');
+        $moment->notify_id = $request->get('fromID');
         if ($moment->type==1){
             $moment->state = 1;
         }
@@ -111,18 +113,53 @@ class MomentController extends Controller
     {
         $comment_id = $request->get('comment_id');
         $comment_id = empty($comment_id)?0:$comment_id;
-        $comment = new MomentComment();
-        $comment->moment_id = $request->get('moment_id');
-        $comment->content = $request->get('content');
-        $comment->comment_id = $comment_id;
         if ($comment_id!=0){
-            $baseComment = MomentComment::find($comment_id);
-            $baseId = $baseComment->base_comment_id;
-            $comment->reply_auth_id = $baseComment->auth_id;
-            $comment->base_comment_id = ($baseId==0)?$baseComment->id:$baseId;
+            $comment = MomentComment::find($comment_id);
+            $reply = new CommentReply();
+            $reply->auth_id = getUserId($request->get('_token'));
+            $reply->reply_auth_id = $comment->auth_id;
+            $reply->content = $request->get('content');
+            $reply->comment_id = $comment_id;
+            if ($reply->save()){
+                return response()->json([
+                'code'=>'200',
+                'msg'=>'success'
+            ]);
+            }
+        }else{
+            $comment = new MomentComment();
+            $comment->moment_id = $request->get('moment_id');
+            $comment->content = $request->get('content');
+            $comment->auth_id = getUserId($request->get('_token'));
+            if ($comment->save()){
+                return response()->json([
+                    'code'=>'200',
+                    'msg'=>'success'
+                ]);
+            }
         }
-        $comment->auth_id = getUserId($request->get('_token'));
-        if ($comment->save()){
+
+    }
+    public function replyComment(Request $request)
+    {
+        $baseReply = CommentReply::find($request->get('reply_id'));
+        $reply = new CommentReply();
+        $reply->auth_id = getUserId($request->get('_token'));
+        $reply->content = $request->get('content');
+        $reply->reply_auth_id = $baseReply->auth_id;
+        $reply->comment_id = $baseReply->comment_id;
+        if ($reply->save()){
+            return response()->json([
+                'code'=>'200',
+                'msg'=>'success'
+            ]);
+        }
+    }
+    public function replyLike($id)
+    {
+        $reply = CommentReply::find($id);
+        $reply->like();
+        if ($reply->save()){
             return response()->json([
                 'code'=>'200',
                 'msg'=>'success'
@@ -131,31 +168,33 @@ class MomentController extends Controller
     }
     public function getComment($id)
     {
-        $comment = MomentComment::find($id);
-        $comment_id = MomentComment::find($comment->comment_id)->auth_id;
-        $baseComment = MomentComment::find($comment->base_comment_id);
+        $baseComment = MomentComment::find($id);
         $baseComment->like = intval($baseComment->like);
         $user = $baseComment->user()->first();
         $baseComment->avatar = $user->avatarUrl;
         $baseComment->userName = $user->nickname;
-        $comments = MomentComment::where([
-            'base_comment_id'=>$comment->base_comment_id,
-            'auth_id'=>$comment->auth_id
-        ])->orWhere([
-            'base_comment_id'=>$comment->base_comment_id,
-            'auth_id'=>$comment_id
-        ])->get()->toArray();
-        $this->formatComments($comments);
-        $node = getNode($comments,$id);
-        $tree = buildCommentsTree($comments,$node['comment_id'],$node['id'],[$node]);
+        $replies = $baseComment->reply()->orderBy('id','DESC')->get();
+        $this->formatReplies($replies);
         return response()->json([
             'code'=>'200',
             'msg'=>'success',
             'data'=>[
                 'comment'=>$baseComment,
-                'converse'=>$tree
+                'converse'=>$replies
             ]
         ]);
+    }
+    public function formatReplies(&$replies)
+    {
+        $length = count($replies);
+        if ($length==0){
+            return false;
+        }
+        for ($i = 0; $i<$length ;$i++){
+            $replies[$i]->like = intval($replies[$i]->like);
+            $replies[$i]->username = OAuthUser::find($replies[$i]->auth_id)->nickname;
+            $replies[$i]->replyUser = OAuthUser::find($replies[$i]->reply_auth_id)->nickname;
+        }
     }
     public function collectMoment($moment_id)
     {
@@ -251,10 +290,7 @@ class MomentController extends Controller
             $user = OAuthUser::find($comments[$i]['auth_id']);
             $comments[$i]['avatar'] = $user->avatarUrl;
             $comments[$i]['userName'] = $user->nickname;
-            if ($comments[$i]['reply_auth_id']!=0){
-//                $reply_user = OAuthUser::find($comments[$i]->)
-                $comments[$i]['reply_user_name'] = OAuthUser::find($comments[$i]['reply_auth_id'])->nickname;
-            }
+            $comments[$i]['reply'] = $comments[$i]->reply()->count();
         }
     }
 

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\OAuthUser;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 
 class UserController extends Controller
@@ -38,5 +40,23 @@ class UserController extends Controller
         }
         $warehouses = Auth::user()->warehouses()->get();
         return view('userList',['warehouses'=>$warehouses,'users'=>$users]);
+    }
+    public function setWarehouse($id)
+    {
+        $warehouse = Warehouse::find($id);
+        if ($warehouse->user_id==Auth::id()){
+            Session::put('warehouse_id',$warehouse->id);
+            Session::put('warehouse_name',$warehouse->name);
+            return redirect()->back()->with('status','设置成功！');
+        }else{
+            return redirect()->back()->with('status','非法访问！');
+        }
+
+    }
+    public function logout()
+    {
+        Auth::logout();
+        Session::flush();
+        return Redirect::route('login');
     }
 }

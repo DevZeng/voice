@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{asset('build/bootstrap-3.3.7-dist/css/bootstrap.min.css')}}">
     <link rel="icon" href="{{asset('images/logo2.ico')}}" type="image/x-icon">
     <link rel="stylesheet" href="{{'css/main.css'}}">
+    <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{asset('layer/layer.js')}}"></script>
     <!--留空放css-->
     <!--/留空放css-->
 </head>
@@ -75,13 +77,22 @@
         <!--/右内容-->
 
     </section>
+    @if (session('status'))
+        <script type="text/javascript">
+            layer.open({
+                title: '操作成功'
+                ,content: '{{ session('status') }}'
+            });
+        </script>
+
+@endif
     <!--/主体部分-->
     <footer class="index-footer">
         <span>CopyRight &copy; 2017 Sennki All Rights Reserved <a href="" target="_blank">粤ICP备案17065039号-1</a></span>
     </footer>
 </section>
 
-<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+
 <script src="{{asset('build/bootstrap-3.3.7-dist/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
 

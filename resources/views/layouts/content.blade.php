@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="{{asset('build/bootstrap-3.3.7-dist/css/bootstrap.min.css')}}">
     <link rel="icon" href="{{asset('images/logo2.ico')}}" type="image/x-icon">
     <link rel="stylesheet" href="{{asset('css/main.css')}}">
+    <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+    <script src="{{asset('layer/layer.js')}}"></script>
     <!--留空放css-->
     @yield('head')
     <!--/留空放css-->
@@ -43,18 +45,17 @@
                     </ul>
                 </li>
                 <li class="nav-list-each">
-                    <a data-toggle="collapse" href="#ad" data-parent="#index_nav" class="index-nav-father" id="ad_control">商户管理</a>
+                    <a data-toggle="collapse" href="#ad" data-parent="#index_nav" class="index-nav-father" id="ad_control">内容管理</a>
                     <ul id="ad" class="collapse">
-                        <li><a href="view/ad-list.html" class="index-nav-son" id="ad_list">商户列表</a></li>
-                        <li><a href="view/ad_check.html" class="index-nav-son" id="ad_check">待审核</a></li>
-                        <li><a href="view/ad_past.html" class="index-nav-son" id="ad_past">已通过</a></li>
+                        <li><a href="{{url('moment/review')}}" class="index-nav-son" id="ad_check">待审核</a></li>
+                        <li><a href="{{url('moment/pass')}}" class="index-nav-son" id="ad_past">已通过</a></li>
                     </ul>
                 </li>
                 <li class="nav-list-each">
                     <a data-toggle="collapse" href="#img" data-parent="#index_nav" class="index-nav-father" id="img_control">广告图片管理</a>
                     <ul id="img" class="collapse">
-                        <li><a href="view/img_list.html" class="index-nav-son" id="img_list">广告列表</a></li>
-                        <li><a href="{{asset('')}}view/img_upload.html" class="index-nav-son" id="img_upload">图片上传</a></li>
+                        <li><a href="{{url('/advert/list')}}" class="index-nav-son" id="img_list">广告列表</a></li>
+                        <li><a href="{{url('/advert/add')}}" class="index-nav-son" id="img_upload">图片上传</a></li>
                     </ul>
                 </li>
             </ul>
@@ -72,7 +73,15 @@
             <!--这里开始不同-->
             <!--/这里开始不同-->
         </div>
+        @if (session('status'))
+            <script type="text/javascript">
+                layer.open({
+                    title: '操作成功'
+                    ,content: '{{ session('status') }}'
+                });
+            </script>
 
+    @endif
         <!--/右内容-->
 
     </section>
@@ -82,7 +91,7 @@
     </footer>
 </section>
 
-<script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
+
 <script src="{{asset('build/bootstrap-3.3.7-dist/js/bootstrap.min.js')}}"></script>
 <script src="{{asset('js/main.js')}}"></script>
 

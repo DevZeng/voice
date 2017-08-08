@@ -18,5 +18,23 @@ Route::get('/', function () {
 //Auth::routes();
 Route::get('/login',['as'=>'login','uses'=>'UserController@login']);
 Route::post('/login','UserController@doLogin');
-Route::get('/user/list','UserController@userList');
+Route::get('/logout','UserController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::group(['middleware'=>'auth'],function (){
+    Route::get('/user/list','UserController@userList');
+    Route::get('/set/warehouse/{id}','UserController@setWarehouse');
+    Route::get('/moment/review','WarehouseController@momentReviewList');
+    Route::get('/moment/pass','WarehouseController@momentPassList');
+    Route::get('/advert/list','WarehouseController@advertList');
+    Route::get('/advert/add','WarehouseController@addAdvertPage');
+    Route::post('/moments/pass','WarehouseController@momentsPass');
+    Route::post('/moments/refuse','WarehouseController@momentsRefuse');
+    Route::post('/moments/del','WarehouseController@momentsDel');
+    Route::get('/moment/del/{id}','WarehouseController@delMoment');
+    Route::get('/comment/del/{id}','WarehouseController@delComment');
+    Route::get('/moment/detail/{id}','WarehouseController@showMoment');
+    Route::post('/advert/del','WarehouseController@delAdverts');
+    Route::post('/user/ban','WarehouseController@banUsers');
+    Route::post('/user/restore','WarehouseController@unBanUsers');
+    Route::post('/advert/add','WarehouseController@addAdvert');
+});

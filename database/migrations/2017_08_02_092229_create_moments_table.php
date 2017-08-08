@@ -19,6 +19,8 @@ class CreateMomentsTable extends Migration
             $table->unsignedInteger('auth_id')->commit('OAuthID');
             $table->tinyInteger('anonymous')->default(0);
             $table->unsignedInteger('warehouse_id');
+            $table->tinyInteger('top')->default(0);
+            $table->string('notify_id')->nullable();
             $table->tinyInteger('type')->commit('Moment Type');
             $table->tinyInteger('state')->default(0)->commit('Moment State');
             $table->timestamps();

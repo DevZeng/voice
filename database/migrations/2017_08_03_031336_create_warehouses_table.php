@@ -17,7 +17,7 @@ class CreateWarehousesTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->string('app_id');
-            $table->string('code');
+            $table->string('template_id');
             $table->string('secret');
             $table->string('api_key');
             $table->unsignedInteger('user_id');

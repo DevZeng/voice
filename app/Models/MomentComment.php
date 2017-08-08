@@ -15,4 +15,8 @@ class MomentComment extends Model
     {
         return $this->belongsTo('App\Models\OAuthUser','auth_id','id');
     }
+    public function reply()
+    {
+        return $this->hasMany('App\Models\CommentReply','comment_id','id');
+    }
 }
