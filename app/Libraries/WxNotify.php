@@ -27,9 +27,8 @@ class WxNotify
     {
         $url = sprintf($this->getAccessUrl,$this->appId,$this->appSecret);
         $data = $this->httpRequest($url);
-        $data = json_decode($data);
-        if (!empty($data->access_token)){
-            $this->accessToken = $data->access_token;
+        if (!empty($data['access_token'])){
+            $this->accessToken = $data['access_token'];
         }else{
             throw new Exception($data);
         }
