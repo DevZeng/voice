@@ -23,8 +23,8 @@ class checkToken
                 'msg'=>'Param ERROR'
             ]);
         }
-        $user_id = getUserId($request->get('_token'));
-        if ($user_id){
+        $warehouse_id = getWarehouseId($request->get('_token'));
+        if ($warehouse_id){
             return $next($request);
         }else{
             return response()->json([
