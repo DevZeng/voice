@@ -5,7 +5,7 @@ $(function () {
 	var uploadData = {
 
 		//文件上传地址
-		host: 'http://webuploader.duapp.com/server/fileupload.php',
+		host: '/upload',
 
 		//swf文件地址
 		swf: '../public/build/webuploader/Uploader.swf',
@@ -22,12 +22,12 @@ $(function () {
 		/**
 		 * 初始化webUploader，对应的参数为： （上传按钮ID，预览区域ID, 按钮文本， input的name值）
 		 */
-		init: function (pickerID,  preID, innerHTML, valName) {
+		init: function (pickerID,  preID, innerHTML, valName, cb) {
 			this.pickerID = pickerID
 			this.innerHTML = innerHTML
 			this.valName = valName
 			var uploader = this.create();
-			this.bindEvent(uploader, preID);
+			this.bindEvent(uploader, preID, cb);
 			return uploader;
 		},
 
@@ -66,7 +66,7 @@ $(function () {
 		/**
 		 * 绑定事件
 		 */
-		bindEvent: function (bindedObj, preID) {
+		bindEvent: function (bindedObj, preID, cb) {
 			bindedObj.on('fileQueued', function (file) {
 				var $preList = $("#" + preID)
 				console.log($preList)
@@ -98,7 +98,7 @@ $(function () {
 			// 文件上传成功，给item添加成功class, 用样式标记上传成功。
 			bindedObj.on('uploadSuccess', function (file, response) {
 				$('#' + file.id).addClass('upload-state-done');
-				console.log(response)
+				typeof cb === 'function' && cb(response.baseurl)
 			});
 
 
@@ -149,12 +149,16 @@ $(function () {
 
 		//广告封面上传
 		adCover: function () {
-			uploadObject.init('adCoverPicker', 'adImgCoverPre', '选择封面图片', 'image')
+			uploadObject.init('adCoverPicker', 'adImgCoverPre', '选择封面图片', 'image', function (baseurl) {
+                $('#imgurl').val(baseurl)
+            })
 		},
 
 		//广告跳转图片上传
 		adImg: function () {
-			uploadObject.init('adPicker', 'adImgPre', '选择跳转图片', 'image')
+			uploadObject.init('adPicker', 'adImgPre', '选择跳转图片', 'image', function (baseurl) {
+				$('#imglink').val(baseurl)
+            })
 		}
 	}
 

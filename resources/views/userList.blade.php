@@ -22,6 +22,7 @@
     <!--/搜索-->
 
     <!--表头-->
+    {{csrf_field()}}
     <table class="table table-bordered table-responsive">
         <thead class="text-center">
         <tr>
@@ -50,6 +51,7 @@
 
         <!--表信息循环-->
         <tbody class="text-center user-table voice-table">
+
         @foreach($users as $user)
         <tr data-id="{{$user->id}}" data-status="{{$user->ban}}" id="{{$user->id}}">
             <td class="col-md-2" title="ID">{{$user->open_id}}</td>
@@ -62,7 +64,7 @@
             </td>
             <td class="col-md-2" title="发布次数">{{$user->moments()->count()}}次</td>
             <td class="col-md-2" title="评论次数">{{$user->comments()->count()}}次</td>
-            <td class="col-md-2 status" title="状态">@if($user->ban==1)禁言@else正常@endif</td>
+            @if($user->ban==1)<td class="col-md-2 status ban" title="状态">禁言中</td>@else<td class="col-md-2 status" title="状态">正常</td>@endif
             <td class="col-md-1" title="操作">
                 @if($user->ban==1)
                     <a href="{{url('/user/enable')}}/{{$user->id}}" class="link user-ban">取消</a>

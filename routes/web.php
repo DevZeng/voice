@@ -12,15 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return \Illuminate\Support\Facades\Redirect::route('login');
 });
 
 //Auth::routes();
 Route::get('/login',['as'=>'login','uses'=>'UserController@login']);
 Route::get('/test','WarehouseController@test');
 Route::post('/login','UserController@doLogin');
+Route::post('/upload','UploadController@uploadImage');
 Route::get('/logout','UserController@logout')->name('logout');
-Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware'=>'auth'],function (){
     Route::get('/user/list','UserController@userList');
     Route::get('/set/warehouse/{id}','UserController@setWarehouse');
@@ -34,8 +34,10 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/moment/del/{id}','WarehouseController@delMoment');
     Route::get('/comment/del/{id}','WarehouseController@delComment');
     Route::get('/moment/detail/{id}','WarehouseController@showMoment');
-    Route::post('/advert/del','WarehouseController@delAdverts');
+    Route::post('/adverts/del','WarehouseController@delAdverts');
+    Route::get('/advert/del','WarehouseController@delAdverts');
     Route::post('/user/ban','WarehouseController@banUsers');
     Route::post('/user/restore','WarehouseController@unBanUsers');
     Route::post('/advert/add','WarehouseController@addAdvert');
+    Route::get('/home', 'HomeController@index')->name('home');
 });

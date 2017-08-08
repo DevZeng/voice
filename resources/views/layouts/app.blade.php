@@ -13,7 +13,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
-<body>
+<body style="min-height: 100%;position: relative">
     <div id="app">
         <nav class="navbar navbar-default navbar-static-top">
             <div class="container">
@@ -59,6 +59,7 @@
         </nav>
 
         @yield('content')
+        <div style="position: absolute;left: 0;bottom: 40px;text-align: center;width: 100%">CopyRight &copy; 2017 Sennki All Rights Reserved<a href="" target="_blank"><a href="http://www.miitbeian.gov.cn" target="_blank">粤ICP备17065039号-4</a></a></div>
     </div>
 
     <!-- Scripts -->

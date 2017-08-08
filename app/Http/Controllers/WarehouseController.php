@@ -92,27 +92,27 @@ class WarehouseController extends Controller
         for ($i=0;$i<count($list);$i++){
             $moment = Moment::find($list[$i]);
             $moment->state=2;
-            $warehouse = Warehouse::find($moment->warehouse_id);
-            $user = OAuthUser::find($moment->auth_id);
-            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
-            $data = [
-                "touser"=>$user->nickname,
-                "template_id"=>$warehouse->template_id,
-                "page"=>"/pages/index/index",
-                "data"=>[
-                    "keyword1"=>[
-                        "DATA"=>mb_substr($moment->content,0,50)
-                    ],
-                    "keyword2"=>[
-                        "DATA"=>$moment->created_at
-                    ],
-                    "keyword3"=>[
-                        "DATA"=>"通过"
-                    ]
-            ]
-            ];
-            $wxnotify->setAccessToken();
-            $wxnotify->send(json_encode($data));
+//            $warehouse = Warehouse::find($moment->warehouse_id);
+//            $user = OAuthUser::find($moment->auth_id);
+//            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
+//            $data = [
+//                "touser"=>$user->nickname,
+//                "template_id"=>$warehouse->template_id,
+//                "page"=>"/pages/index/index",
+//                "data"=>[
+//                    "keyword1"=>[
+//                        "DATA"=>mb_substr($moment->content,0,50)
+//                    ],
+//                    "keyword2"=>[
+//                        "DATA"=>$moment->created_at
+//                    ],
+//                    "keyword3"=>[
+//                        "DATA"=>"通过"
+//                    ]
+//            ]
+//            ];
+//            $wxnotify->setAccessToken();
+//            $wxnotify->send(json_encode($data));
             $moment->save();
         }
         return response()->json([
@@ -190,28 +190,28 @@ class WarehouseController extends Controller
         }
         for ($i=0;$i<count($list);$i++){
             $moment = Moment::find($list[$i]);
-            $moment->state=2;
-            $warehouse = Warehouse::find($moment->warehouse_id);
-            $user = OAuthUser::find($moment->auth_id);
-            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
-            $data = [
-                "touser"=>$user->nickname,
-                "template_id"=>$warehouse->template_id,
-                "page"=>"/pages/index/index",
-                "data"=>[
-                    "keyword1"=>[
-                        "DATA"=>mb_substr($moment->content,0,50)
-                    ],
-                    "keyword2"=>[
-                        "DATA"=>$moment->created_at
-                    ],
-                    "keyword3"=>[
-                        "DATA"=>"通过"
-                    ]
-                ]
-            ];
-            $wxnotify->setAccessToken();
-            $wxnotify->send(json_encode($data));
+            $moment->state=3;
+//            $warehouse = Warehouse::find($moment->warehouse_id);
+//            $user = OAuthUser::find($moment->auth_id);
+//            $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
+//            $data = [
+//                "touser"=>$user->nickname,
+//                "template_id"=>$warehouse->template_id,
+//                "page"=>"/pages/index/index",
+//                "data"=>[
+//                    "keyword1"=>[
+//                        "DATA"=>mb_substr($moment->content,0,50)
+//                    ],
+//                    "keyword2"=>[
+//                        "DATA"=>$moment->created_at
+//                    ],
+//                    "keyword3"=>[
+//                        "DATA"=>"通过"
+//                    ]
+//                ]
+//            ];
+//            $wxnotify->setAccessToken();
+//            $wxnotify->send(json_encode($data));
             $moment->save();
         }
         return response()->json([
@@ -277,13 +277,14 @@ class WarehouseController extends Controller
                     "value"=>'你发布的动态已被审核'
                 ],
                 "keyword2"=>[
-                    "value"=>'2017-8-8 16:00:00'
+                    "value"=>date('Y-m-d H:i:s',strtotime($moment->created_at))
                 ],
                 "keyword3"=>[
                     "value"=>"通过"
                 ]
             ]
         ];
+        return json_encode($data);
         $wxnotify->setAccessToken();
         $err = $wxnotify->send(json_encode($data));
         dd($err);

@@ -5,7 +5,7 @@
 
     <!--面包屑导航-->
     <ol class="breadcrumb">
-        <li>用户管理</li>
+        <li>内容管理</li>
         <li class="active">已通过</li>
     </ol>
     <!--/面包屑导航-->
@@ -20,6 +20,7 @@
             <button type="button" class="btn index-btn" id="del_all_past">删除</button>
         </div>
     </div>
+    {{csrf_field()}}
     @foreach($moments as $moment)
     <!--表内容循环-->
     <table class="table table-responsive table-striped middle">
@@ -78,9 +79,9 @@
     <!--留空js位置-->
     <script>
         $(function () {
-            $('#user_control').addClass('active')
-            $('#user').collapse()
-            $('#user_past').addClass('active')
+            $('#ad_control').addClass('active')
+            $('#ad').collapse()
+            $('#ad_past').addClass('active')
         })
     </script>
     <!--/留空js位置-->

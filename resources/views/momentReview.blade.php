@@ -4,7 +4,7 @@
 
     <!--面包屑导航-->
     <ol class="breadcrumb">
-        <li>用户管理</li>
+        <li>内容管理</li>
         <li class="active">待审核</li>
     </ol>
     <!--/面包屑导航-->
@@ -12,11 +12,11 @@
     <!--全选-->
     <div class="check-all">
         <span class="check-all-btn" id="check_all" data-status="1">全选</span>
-        <span class="check-pass" id="check_all_past">通过</span>
-        <span class="check-reject" id="check_all_reject">拒绝</span>
+        <span class="check-pass-all" id="check_all_past">通过</span>
+        <span class="check-reject-all" id="check_all_reject">拒绝</span>
     </div>
     <!--/全选-->
-
+    {{csrf_field()}}
     <div class="check-list">
         @foreach($moments as $moment)
         <div class="check-item" data-id="{{$moment->id}}" data-type="{{$moment->state}}">
@@ -62,9 +62,9 @@
     <!--留空js位置-->
     <script>
         $(function () {
-            $('#user_control').addClass('active')
-            $('#user').collapse()
-            $('#user_check').addClass('active')
+            $('#ad_control').addClass('active')
+            $('#ad').collapse()
+            $('#ad_check').addClass('active')
         })
     </script>
     <!--/留空js位置-->
