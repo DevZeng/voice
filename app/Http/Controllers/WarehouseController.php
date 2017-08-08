@@ -215,8 +215,8 @@ class WarehouseController extends Controller
                 ]
             ];
             $wxnotify->setAccessToken();
-            $data = $wxnotify->send(json_encode($data));
-            dd($data);
+            $wxnotify->send(json_encode($data));
+
             if($moment->type==2){
                 $number = self::makePaySn(rand(1,9));
                 $path = base_path().'/public/uploads/';
