@@ -270,6 +270,7 @@ class WarehouseController extends Controller
         $data = [
             "touser"=>$user->open_id,
             "template_id"=>$warehouse->template_id,
+            "form_id"=> $moment->notify_id,
             "page"=>"/pages/index/index",
             "data"=>[
                 "keyword1"=>[
