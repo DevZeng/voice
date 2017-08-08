@@ -263,8 +263,8 @@ class MomentController extends Controller
             $moment->avatar = $user->avatarUrl;
             $moment->userName = $user->nickname;
         }
-        $hotComment = $moment->comments()->orderBy('like','DESC')->limit(3)->get()->toArray();
-        $newsComment = $moment->comments()->orderBy('id','DESC')->limit(10)->get()->toArray();
+        $hotComment = $moment->comments()->orderBy('like','DESC')->limit(3)->get();
+        $newsComment = $moment->comments()->orderBy('id','DESC')->limit(10)->get();
         $this->formatComments($hotComment);
         $this->formatComments($newsComment);
         $moment->hotComments = $hotComment;
@@ -286,11 +286,11 @@ class MomentController extends Controller
             return false;
         }
         for ($i = 0; $i<$length ;$i++){
-            $comments[$i]['like'] = intval($comments[$i]['like']);
-            $user = OAuthUser::find($comments[$i]['auth_id']);
-            $comments[$i]['avatar'] = $user->avatarUrl;
-            $comments[$i]['userName'] = $user->nickname;
-            $comments[$i]['reply'] = $comments[$i]->reply()->count();
+            $comments[$i]->like = intval($comments[$i]->like);
+            $user = OAuthUser::find($comments[$i]->auth_id);
+            $comments[$i]->avatar = $user->avatarUrl;
+            $comments[$i]->userName = $user->nickname;
+            $comments[$i]->reply = $comments[$i]->reply()->count();
         }
     }
 
