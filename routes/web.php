@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 //Auth::routes();
 Route::get('/login',['as'=>'login','uses'=>'UserController@login']);
+Route::get('/test','WarehouseController@test');
 Route::post('/login','UserController@doLogin');
 Route::get('/logout','UserController@logout')->name('logout');
 Route::get('/home', 'HomeController@index')->name('home');

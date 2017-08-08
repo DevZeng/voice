@@ -260,4 +260,29 @@ class WarehouseController extends Controller
         $moment->delete();
         return redirect()->back()->with('status','操作成功！');
     }
+    public function test()
+    {
+        $moment = Moment::find(35);
+        $warehouse = Warehouse::find($moment->warehouse_id);
+        $user = OAuthUser::find($moment->auth_id);
+        $wxnotify = new WxNotify($warehouse->app_id,$warehouse->secret);
+        $data = [
+            "touser"=>$user->nickname,
+            "template_id"=>$warehouse->template_id,
+            "page"=>"/pages/index/index",
+            "data"=>[
+                "keyword1"=>[
+                    "DATA"=>mb_substr($moment->content,0,50)
+                ],
+                "keyword2"=>[
+                    "DATA"=>$moment->created_at
+                ],
+                "keyword3"=>[
+                    "DATA"=>"通过"
+                ]
+            ]
+        ];
+        $wxnotify->setAccessToken();
+        $wxnotify->send(json_encode($data));
+    }
 }
