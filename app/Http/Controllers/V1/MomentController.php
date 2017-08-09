@@ -28,6 +28,13 @@ class MomentController extends Controller
         $moment->type = $request->get('type');
         $moment->notify_id = $request->get('formID');
         if ($moment->type==1){
+            $count = Moment::where('auth_id','=',getUserId($request->get('_token')))->whereDate('created_at',date('Y-m-d',time()))->count();
+            if ($count>5){
+                return response()->json([
+                    'code'=>'400',
+                    'msg'=>'超过每天发送条数限制!'
+                ]);
+            }
             $moment->state = 1;
         }
         $moment->anonymous = $anonymous;
