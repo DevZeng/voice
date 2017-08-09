@@ -22,6 +22,7 @@ class WarehouseController extends Controller
         if (!empty($adverts)){
             for ($i=0;$i<count($adverts);$i++){
                 $adverts[$i]->url = setUrl($adverts[$i]->url);
+                $adverts[$i]->link = setUrl($adverts[$i]->link);
             }
         }
         return response()->json([

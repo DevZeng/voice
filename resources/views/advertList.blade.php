@@ -36,7 +36,7 @@
         {{csrf_field()}}
         <tbody class="text-center user-table voice-past-table table-bordered">
         <tr>
-            <td class="col-md-3" title="ID">
+            <td class="col-md-2" title="ID">
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" class="img-content" data-id="{{$advert->id}}">{{$advert->id}}
@@ -44,9 +44,9 @@
 {{--                    <input type="checkbox"  data-id="{{$advert->id}}">{{$advert->id}}--}}
                 </div>
             </td>
-            <td class="col-md-2" title="备注">{{empty($advert->remark)?'无':$advert->remark}}</td>
-            <td class="col-md-3" title="广告封面地址">{{$advert->url}}</td>
-            <td class="col-md-3" title="广告跳转地址">{{$advert->link}}</td>
+            <td class="col-md-1" title="备注">{{empty($advert->remark)?'无':$advert->remark}}</td>
+            <td class="col-md-4" title="广告封面地址">{{$advert->url}}</td>
+            <td class="col-md-4" title="广告跳转地址">{{$advert->link}}</td>
             <td class="col-md-1" title="操作">
                 <a href="{{url('advert/del')}}/{{$advert->id}}" class="link ad_del" data-id="1">删除</a>
             </td>

@@ -513,6 +513,11 @@ html, body {
     background-color: #eee!important;
 }
 
+.voice-past-table td {
+    word-break: break-all;
+    word-wrap: break-word;
+}
+
 .middle td {
     vertical-align: middle!important;
 }
