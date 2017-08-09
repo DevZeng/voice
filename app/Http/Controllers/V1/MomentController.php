@@ -29,7 +29,7 @@ class MomentController extends Controller
         $moment->notify_id = $request->get('formID');
         if ($moment->type==1){
             $count = Moment::where('auth_id','=',getUserId($request->get('_token')))->whereDate('created_at',date('Y-m-d',time()))->count();
-            if ($count>5){
+            if ($count>=5){
                 return response()->json([
                     'code'=>'400',
                     'msg'=>'超过每天发送条数限制!'
