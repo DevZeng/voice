@@ -318,4 +318,11 @@ class WarehouseController extends Controller
         $err = $wxnotify->send(json_encode($data));
         dd($err);
     }
+    public function delAdvert($id)
+    {
+        $advert = Advert::find($id);
+        if ($advert->delete()){
+            return back()->with('status','操作成功！');
+        }
+    }
 }

@@ -35,7 +35,7 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/comment/del/{id}','WarehouseController@delComment');
     Route::get('/moment/detail/{id}','WarehouseController@showMoment');
     Route::post('/adverts/del','WarehouseController@delAdverts');
-    Route::get('/advert/del','WarehouseController@delAdverts');
+    Route::get('/advert/del/{id}','WarehouseController@delAdvert');
     Route::post('/user/ban','WarehouseController@banUsers');
     Route::post('/user/restore','WarehouseController@unBanUsers');
     Route::post('/advert/add','WarehouseController@addAdvert');
