@@ -17,7 +17,7 @@
                 <a href="{{url('moment/del')}}/{{$moment->id}}"><span>删除</span></a>
             </div>
             <div class="check-item-header">
-                <img class="check-item-header-img" src="http://p2.wmpic.me/article/2014/11/27/1417067254_zsUTqfiY.jpg" alt="爱吃鱼的猫">
+                <img class="check-item-header-img" src="{{$moment->user()->pluck('avatarUrl')->first()}}" alt="{{$user()->pluck('nickname')->first()}}">
                 <span class="check-item-header-name">{{$moment->user()->pluck('nickname')->first()}}</span>
                 <span class="check-item-header-time">{{$moment->created_at}}</span>
             </div>
