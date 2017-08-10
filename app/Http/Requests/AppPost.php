@@ -49,7 +49,7 @@ class AppPost extends FormRequest
             'template_id.required'=>"通知模板ID不允许为空！",
             'cainfo.required'=>"请先上传证书！",
             'sslcert.required'=>"请先上传证书！",
-            'sslket.required'=>"请先上传证书！",
+            'sslkey.required'=>"请先上传证书！",
         ];
     }
     protected function formatErrors(Validator $validator)

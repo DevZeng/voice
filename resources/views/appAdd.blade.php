@@ -87,10 +87,27 @@
             <div class="form-group clearfix">
                 <label for="info_6" class="control-label col-md-2 text-right">通知模板ID：</label>
                 <div class="col-md-10">
-                    <input type="hidden" name="cainfo">
-                    <input type="hidden" name="sslcert">
-                    <input type="hidden" name="sslket">
+
                     <input type="text" placeholder="通知模板ID" name="template_id" class="form-control" id="info_6">
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label for="info_7" class="control-label col-md-2 text-right">商户证书：</label>
+                <div class="col-md-10">
+
+                    <input type="text" placeholder="商户证书" readonly name="sslcert" class="form-control" id="info_7">
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label for="info_8" class="control-label col-md-2 text-right">商户证书密钥：</label>
+                <div class="col-md-10">
+                    <input type="text" placeholder="商户证书密钥" readonly name="sslkey" class="form-control" id="info_8">
+                </div>
+            </div>
+            <div class="form-group clearfix">
+                <label for="info_9" class="control-label col-md-2 text-right">CA证书：</label>
+                <div class="col-md-10">
+                    <input type="text" placeholder="CA证书" readonly name="cainfo" class="form-control" id="info_9">
                 </div>
             </div>
             <div class="ad-submit">

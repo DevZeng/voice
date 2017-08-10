@@ -96,7 +96,7 @@ $(function () {
 
 		fileTwo: function () {
 			uploadObject.init('file_2', 'file_2_list', '选择文件', 'image', function (res) {
-                $('input[name=sslket]').val(res.baseurl)
+                $('input[name=sslkey]').val(res.baseurl)
             })
 		},
 
