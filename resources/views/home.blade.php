@@ -60,7 +60,7 @@
                 <li class="nav-list-each">
                     <a data-toggle="collapse" href="#app" data-parent="#index_nav" class="index-nav-father" id="app_control">APP管理</a>
                     <ul id="app" class="collapse">
-                        <li><a href="={{url('/app/list')}}" class="index-nav-son" id="app_check">APP列表</a></li>
+                        <li><a href="{{url('/app/list')}}" class="index-nav-son" id="app_check">APP列表</a></li>
                         <li><a href="{{url('/app/add')}}" class="index-nav-son" id="app_upload">新增APP</a></li>
                     </ul>
                 </li>
