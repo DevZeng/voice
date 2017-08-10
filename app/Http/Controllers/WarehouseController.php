@@ -303,7 +303,7 @@ class WarehouseController extends Controller
             "touser"=>$user->open_id,
             "template_id"=>$warehouse->template_id,
             "form_id"=> $moment->notify_id,
-            "page"=>"index",
+            "page"=>"pages/index/index",
             "data"=>[
                 "keyword1"=>[
                     "value"=>'你发布的动态已被审核'
