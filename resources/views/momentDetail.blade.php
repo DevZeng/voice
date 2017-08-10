@@ -28,7 +28,7 @@
                     </div>
                     <div class="single-item-img-group">
                         @foreach($images as $image)
-                        <img src="{{setUrl($image->url)}}" alt="封面" class="single-item-content-img">
+                        <img src="{{$image->url}}" alt="封面" class="single-item-content-img">
                         @endforeach
                     </div>
                 </div>
