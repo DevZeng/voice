@@ -104,7 +104,7 @@ class WarehouseController extends Controller
                 "touser"=>$user->open_id,
                 "template_id"=>$warehouse->template_id,
                 "form_id"=> $moment->notify_id,
-                "page"=>"/pages/index/index",
+                "page"=>"pages/index/index",
                 "data"=>[
                     "keyword1"=>[
                         "value"=>mb_substr($moment->content,0,20)
@@ -204,7 +204,7 @@ class WarehouseController extends Controller
                 "touser"=>$user->open_id,
                 "template_id"=>$warehouse->template_id,
                 "form_id"=> $moment->notify_id,
-                "page"=>"/pages/index/index",
+                "page"=>"pages/index/index",
                 "data"=>[
                     "keyword1"=>[
                         "value"=>mb_substr($moment->content,0,20)
