@@ -35,7 +35,7 @@ class AppPost extends FormRequest
             'template_id'=>"required",
             'cainfo'=>"required",
             'sslcert'=>"required",
-            'sslket'=>"required"
+            'sslkey'=>"required"
         ];
     }
     public function messages()
