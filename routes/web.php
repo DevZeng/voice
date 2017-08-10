@@ -40,4 +40,9 @@ Route::group(['middleware'=>'auth'],function (){
     Route::post('/user/restore','WarehouseController@unBanUsers');
     Route::post('/advert/add','WarehouseController@addAdvert');
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/app/add','WarehouseController@addApp');
+    Route::post('/app/add','WarehouseController@addAppPost');
+    Route::get('/app/modify','WarehouseController@modifyAppPage');
+    Route::post('/app/modify','WarehouseController@modifyApp');
+    Route::get('/app/list','WarehouseController@listApp');
 });

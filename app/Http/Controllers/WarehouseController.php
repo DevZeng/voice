@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AppPost;
 use App\Libraries\WxNotify;
 use App\Libraries\WxPay;
 use App\Models\Advert;
@@ -11,6 +12,7 @@ use App\Models\OAuthUser;
 use App\Models\Order;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Input;
 
@@ -220,7 +222,7 @@ class WarehouseController extends Controller
 
             if($moment->type==2){
                 $number = self::makePaySn(rand(1,9));
-                $path = base_path().'/public/uploads/';
+                $path = base_path().'/public/';
                 $wxpay = new WxPay($warehouse->app_id,$warehouse->m_id,$warehouse->api_key);
                 $order = Order::where('moment_id','=',$moment->id)->first();
                 $data = $wxpay->refund($order->transaction_id,$number,10*100,10*100,$warehouse->m_id,$path.$warehouse->sslCert,
@@ -316,6 +318,7 @@ class WarehouseController extends Controller
         ];
         $wxnotify->setAccessToken();
         $err = $wxnotify->send(json_encode($data));
+        var_dump(json_encode($data));
         dd($err);
     }
     public function delAdvert($id)
@@ -323,6 +326,58 @@ class WarehouseController extends Controller
         $advert = Advert::find($id);
         if ($advert->delete()){
             return back()->with('status','操作成功！');
+        }
+    }
+    public function addApp()
+    {
+        $warehouses = Auth::user()->warehouses()->get();
+        return view('appAdd',['warehouses'=>$warehouses]);
+    }
+    public function addAppPost(AppPost $request)
+    {
+        $warehouse = new Warehouse();
+        $warehouse->name = $request->get('name');
+        $warehouse->app_id = $request->get('app_id');
+        $warehouse->secret = $request->get('secret');
+        $warehouse->user_id = Auth::id();
+        $warehouse->m_id = $request->get('mch_id');
+        $warehouse->api_key = $request->get('api_key');
+        $warehouse->template_id = $request->get('template_id');
+        $warehouse->caInfo = $request->get('cainfo');
+        $warehouse->sslCert = $request->get('sslcert');
+        $warehouse->sslKey = $request->get('sslkey');
+        if ($warehouse->save()){
+            return redirect()->back()->with('status','操作成功！');
+        }
+    }
+    public function listApp()
+    {
+        $warehouses = Auth::user()->warehouses()->get();
+        return view('appList',['warehouses'=>$warehouses]);
+    }
+    public function modifyAppPage()
+    {
+        $id = Input::get('id');
+        $warehouses = Auth::user()->warehouses()->get();
+        $info = Warehouse::find($id);
+        return view('appModify',['warehouses'=>$warehouses,'info'=>$info]);
+    }
+    public function modifyApp(AppPost $request)
+    {
+        $id = Input::get('id');
+        $warehouse = Warehouse::find($id);
+        $warehouse->name = $request->get('name');
+        $warehouse->app_id = $request->get('app_id');
+        $warehouse->secret = $request->get('secret');
+        $warehouse->user_id = Auth::id();
+        $warehouse->m_id = $request->get('mch_id');
+        $warehouse->api_key = $request->get('api_key');
+        $warehouse->template_id = $request->get('template_id');
+        $warehouse->caInfo = $request->get('cainfo');
+        $warehouse->sslCert = $request->get('sslcert');
+        $warehouse->sslKey = $request->get('sslkey');
+        if ($warehouse->save()){
+            return redirect()->back()->with('status','操作成功！');
         }
     }
 }

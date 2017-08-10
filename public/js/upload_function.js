@@ -8,7 +8,7 @@ $(function () {
 		host: '/upload',
 
 		//swf文件地址
-		swf: '../public/build/webuploader/Uploader.swf',
+		swf: 'build/webuploader/Uploader.swf',
 
 		//允许的文件类型
 		accept: {
