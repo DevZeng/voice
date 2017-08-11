@@ -61,8 +61,8 @@
                         待审核
                         @elseif($moment->state==2)
                         已发布
-                        @elseif($moment->state==4)
-                        已删除
+                        @elseif($moment->state==3)
+                        已拒绝
                         @endif
                 </td>
                 <td class="col-md-2 status" title="匿名">
