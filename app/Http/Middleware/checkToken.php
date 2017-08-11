@@ -20,7 +20,7 @@ class checkToken
         if (empty($code)){
             return response()->json([
                 'code'=>'400',
-                'msg'=>'Param ERROR'
+                'msg'=>'参数错误！'
             ]);
         }
         $warehouse_id = getWarehouseId($request->get('_token'));
@@ -29,7 +29,7 @@ class checkToken
         }else{
             return response()->json([
                 'code'=>'401',
-                'msg'=>'Unauthorized API Request'
+                'msg'=>'未识别的应用ID'
             ]);
         }
 

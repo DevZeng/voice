@@ -46,6 +46,12 @@
 
                 </div>
             </div>
+            @if($moment->state==2)
+            <div class="check-item-pay">
+                <span class="glyphicon glyphicon-jpy"></span>
+            </div>
+            @else
+            @endif
         </div>
         @endforeach
     </div>

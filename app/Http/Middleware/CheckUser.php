@@ -24,14 +24,14 @@ class CheckUser
             if ($user->ban==1){
                 return response()->json([
                     'code'=>'401',
-                    'msg'=>'Unauthorized API Request'
+                    'msg'=>'账户已被封禁！'
                 ]);
             }
             return $next($request);
         }
         return response()->json([
             'code'=>'401',
-            'msg'=>'Unauthorized API Request'
+            'msg'=>'未登录'
         ]);
     }
 }

@@ -699,3 +699,10 @@ html, body {
     margin: 5px 0;
     display: block;
 }
+.check-item-pay {
+    font-size: 32px;
+    color: #1ccca9;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}

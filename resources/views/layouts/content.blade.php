@@ -94,7 +94,7 @@
     </section>
     <!--/主体部分-->
     <footer class="index-footer">
-        <span>CopyRight &copy; 2017 Sennki All Rights Reserved <a href="" target="_blank">粤ICP备案17065039号-1</a></span>
+        <span>CopyRight &copy; 2017 Sennki All Rights Reserved <a href="" target="_blank">粤ICP备案17065039号-4</a></span>
     </footer>
 </section>
 
