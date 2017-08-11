@@ -45,4 +45,5 @@ Route::group(['middleware'=>'auth'],function (){
     Route::get('/app/modify','WarehouseController@modifyAppPage');
     Route::post('/app/modify','WarehouseController@modifyApp');
     Route::get('/app/list','WarehouseController@listApp');
+    Route::get('/user/moment/list/{id}','UserController@momentList');
 });

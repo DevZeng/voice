@@ -71,7 +71,7 @@
                 @else
                     <a href="{{url('/user/disable')}}/{{$user->id}}" class="link user-ban">禁言</a>
                 @endif
-
+                    <a href="{{url('/user/moment/list/')}}/{{$user->id}}" >查看发布</a>
             </td>
         </tr>
         @endforeach

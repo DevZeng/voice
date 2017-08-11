@@ -59,4 +59,11 @@ class UserController extends Controller
         Session::flush();
         return Redirect::route('login');
     }
+    public function momentList($id)
+    {
+        $warehouses = Auth::user()->warehouses()->get();
+        $user = OAuthUser::find($id);
+        $moments = $user->moments()->paginate(10);
+        return view('momentList',['warehouses'=>$warehouses,'moments'=>$moments]);
+    }
 }
