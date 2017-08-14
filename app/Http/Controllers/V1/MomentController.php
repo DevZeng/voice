@@ -78,7 +78,7 @@ class MomentController extends Controller
         $page = Input::get('page',1);
         $type = Input::get('type',1);
         $warehouse = Warehouse::find(getWarehouseId(Input::get('_token')));
-        $moments = $warehouse->moments()->where('top','=','0')->where('type','=',$type)->where('state','=','2')->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->get();
+        $moments = $warehouse->moments()->where('top','=','0')->where('type','=',$type)->where('state','=','2')->limit($limit)->offset(($page-1)*$limit)->orderBy('id','DESC')->orderBy('comment_count','DESC')->get();
         $this->formatMoments($moments);
         return response()->json([
             'code'=>'200',
@@ -122,6 +122,9 @@ class MomentController extends Controller
         $comment_id = empty($comment_id)?0:$comment_id;
         if ($comment_id!=0){
             $comment = MomentComment::find($comment_id);
+            $moment = Moment::find($comment->moment_id);
+            $moment->comment();
+            $moment->save();
             $reply = new CommentReply();
             $reply->auth_id = getUserId($request->get('_token'));
             $reply->reply_auth_id = $comment->auth_id;
@@ -136,6 +139,9 @@ class MomentController extends Controller
         }else{
             $comment = new MomentComment();
             $comment->moment_id = $request->get('moment_id');
+            $moment = Moment::find($request->get('moment_id'));
+            $moment->comment();
+            $moment->save();
             $comment->content = $request->get('content');
             $comment->auth_id = getUserId($request->get('_token'));
             if ($comment->save()){
@@ -151,6 +157,10 @@ class MomentController extends Controller
     {
         $baseReply = CommentReply::find($request->get('reply_id'));
         $reply = new CommentReply();
+        $comment = MomentComment::find($baseReply->comment_id);
+        $moment = Moment::find($comment->moment_id);
+        $moment->comment();
+        $moment->save();
         $reply->auth_id = getUserId($request->get('_token'));
         $reply->content = $request->get('content');
         $reply->reply_auth_id = $baseReply->auth_id;

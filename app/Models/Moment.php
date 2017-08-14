@@ -27,4 +27,8 @@ class Moment extends Model
     {
         return $this->hasMany('App\Models\MomentCollect','moment_id','id');
     }
+    public function comment()
+    {
+        $this->comment_count += 1;
+    }
 }
