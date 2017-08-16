@@ -25,7 +25,6 @@ Route::group(['middleware'=>['api']],function (){
     Route::group(['middleware'=>['token']],function (){
         Route::get('/v1/moments','V1\MomentController@getMoments');
         Route::get('/v1/moments/top','V1\MomentController@getTopMoments');
-
         Route::post('/v1/moment/like/{id}','V1\MomentController@likeMoment');
         Route::post('/v1/moment/collect/{id}','V1\MomentController@collectMoment');
         Route::get('/v1/reply/like/{id}','V1\MomentController@replyLike');
@@ -33,10 +32,11 @@ Route::group(['middleware'=>['api']],function (){
         Route::get('/v1/comment/{id}','V1\MomentController@getComment');
         Route::get('/v1/comment/like/{id}','V1\MomentController@likeComments');
         Route::post('/v1/pay','V1\OrderController@pay');
-
         Route::get('/v1/adverts','WarehouseController@getAdverts');
         Route::get('/v1/my/moments','V1\UserController@getMoments');
         Route::get('/v1/my/moments/collect','V1\UserController@getCollects');
+        Route::get('/v2/my/notify/comments','V2\UserController@getCommentNotifies');
+        Route::get('/v2/notify/read/{id}','V2\UserController@readCommentNotify');
     });
    Route::get('/v1/login/test','V1\UserController@test');
    Route::post('/v1/login','V1\UserController@OAuthLogin');

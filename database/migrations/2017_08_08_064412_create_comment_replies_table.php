@@ -17,7 +17,8 @@ class CreateCommentRepliesTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('auth_id');
             $table->unsignedInteger('reply_auth_id');
-            $table->unsignedInteger('comment_id');
+            $table->unsignedInteger('comment_id')->defualt(0);
+            $table->unsignedInteger('reply_id')->default(0);
             $table->string('content');
             $table->unsignedInteger('like')->default(0);
             $table->timestamps();

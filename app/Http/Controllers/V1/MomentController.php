@@ -6,6 +6,7 @@ use App\Http\Requests\CommentPost;
 use App\Http\Requests\MomentPost;
 use App\Http\Controllers\Controller;
 use App\Models\CommentReply;
+use App\Models\Message;
 use App\Models\Moment;
 use App\Models\MomentCollect;
 use App\Models\MomentComment;
@@ -131,6 +132,13 @@ class MomentController extends Controller
             $reply->content = $request->get('content');
             $reply->comment_id = $comment_id;
             if ($reply->save()){
+                $message = new Message();
+                $message->auth_id = $reply->auth_id;
+                $message->receive_id = $reply->reply_auth_id;
+                $message->content = $reply->content;
+                $message->comment_id = $reply->comment_id;
+                $message->moment_id = $moment->id;
+                $message->save();
                 return response()->json([
                 'code'=>'200',
                 'msg'=>'success'
@@ -145,6 +153,12 @@ class MomentController extends Controller
             $comment->content = $request->get('content');
             $comment->auth_id = getUserId($request->get('_token'));
             if ($comment->save()){
+                $message = new Message();
+                $message->auth_id = $comment->auth_id;
+                $message->receive_id = $moment->auth_id;
+                $message->content = $comment->content;
+                $message->moment_id = $moment->id;
+                $message->save();
                 return response()->json([
                     'code'=>'200',
                     'msg'=>'success'
@@ -161,11 +175,21 @@ class MomentController extends Controller
         $moment = Moment::find($comment->moment_id);
         $moment->comment();
         $moment->save();
+//        $message = new Message();
         $reply->auth_id = getUserId($request->get('_token'));
         $reply->content = $request->get('content');
         $reply->reply_auth_id = $baseReply->auth_id;
+        $reply->reply_id = $baseReply->id;
         $reply->comment_id = $baseReply->comment_id;
         if ($reply->save()){
+            $message = new Message();
+            $message->auth_id = $reply->auth_id;
+            $message->receive_id = $reply->reply_auth_id;
+            $message->content = $reply->content;
+            $message->reply_id = $baseReply->id;
+            $message->comment_id = $reply->comment_id;
+            $message->moment_id = $moment->id;
+            $message->save();
             return response()->json([
                 'code'=>'200',
                 'msg'=>'success'
