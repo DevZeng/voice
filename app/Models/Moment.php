@@ -11,6 +11,10 @@ class Moment extends Model
     {
         return $this->hasMany('App\Models\MomentImage','moment_id','id');
     }
+    public function videos()
+    {
+        return $this->hasMany('App\Models\MomentVideo','moment_id','id');
+    }
     public function comments()
     {
         return $this->hasMany('App\Models\MomentComment','moment_id','id');
