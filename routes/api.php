@@ -42,5 +42,5 @@ Route::group(['middleware'=>['api']],function (){
    Route::post('/v1/login','V1\UserController@OAuthLogin');
    Route::get('/v1/token','V1\UserController@getToken');
    Route::get('/v1/moment/{id}','V1\MomentController@getMoment');
-    Route::post('/v1/upload','UploadController@uploadImage');
+   Route::post('/v1/upload','UploadController@uploadImage');
 });
