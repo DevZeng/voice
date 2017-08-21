@@ -47,6 +47,7 @@ class UserController extends Controller
         for ($i=0;$i<$length;$i++){
             $messages[$i]->auth = OAuthUser::find($messages[$i]->auth_id)->nickname;
             $messages[$i]->topic = Moment::find($messages[$i]->moment_id)->content;
+            $messages[$i]->auth_avatar = OAuthUser::find($messages[$i]->auth_id)->avatarUrl;
             if ($messages[$i]->comment_id !=0){
                 if ($messages[$i]->reply_id != 0){
                     $messages[$i]->comment = CommentReply::find($messages[$i]->reply_id)->content;
