@@ -37,6 +37,7 @@ Route::group(['middleware'=>['api']],function (){
         Route::get('/v1/my/moments/collect','V1\UserController@getCollects');
         Route::get('/v2/my/notify/comments','V2\UserController@getCommentNotifies');
         Route::get('/v2/notify/read/{id}','V2\UserController@readCommentNotify');
+        Route::get('/v2/notify/Unread/count','V2\UserController@getUnReadCount');
         Route::post('/v2/moment/video/add','V2\MomentController@addMomentVideo');
     });
    Route::get('/v1/login/test','V1\UserController@test');

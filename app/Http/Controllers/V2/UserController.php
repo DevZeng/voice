@@ -57,4 +57,14 @@ class UserController extends Controller
             }
         }
     }
+    public function getUnReadCount()
+    {
+        $auth_id = getUserId(Input::get('_token'));
+        $count = Message::where('receive_id','=',$auth_id)->where('read','=','0')->count();
+        return response()->json([
+            'code'=>'200',
+            'msg'=>'success',
+            'data'=>$count
+        ]);
+    }
 }
