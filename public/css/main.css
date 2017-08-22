@@ -706,3 +706,15 @@ html, body {
     right: 5px;
     bottom: 5px;
 }
+
+/*视频*/
+.check-item-video-group {
+    width: 100%;
+    padding: 10px 10px 0 10px;
+}
+
+.check-item-video-group video {
+    width: 300px;
+    display: inline-block;
+    margin: 5px 5px;
+}

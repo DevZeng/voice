@@ -36,7 +36,11 @@
                         {{$moment->content}}
                     </div>
 
-
+                    <div class="check-item-video-group">
+                        @foreach($moment->videos()->get() as $video)
+                        <video src="{{$video->url}}" controls>您的浏览器不支持video</video>
+                        @endforeach
+                    </div>
                     <div class="check-item-img-group">
                         {{--{{$images = $moment->images()->get()}}--}}
                         @foreach($moment->images()->get() as $image)
