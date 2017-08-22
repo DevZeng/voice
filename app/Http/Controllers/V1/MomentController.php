@@ -12,6 +12,7 @@ use App\Models\MomentCollect;
 use App\Models\MomentComment;
 use App\Models\MomentImage;
 use App\Models\MomentLike;
+use App\Models\MomentVideo;
 use App\Models\OAuthUser;
 use App\Models\Warehouse;
 use App\User;
@@ -42,15 +43,29 @@ class MomentController extends Controller
         $moment->auth_id = getUserId($request->get('_token'));
         $moment->warehouse_id = getWarehouseId($request->get('_token'));
         $img = $request->get('images');
+        $mov = $request->get('movies');
 //        $img = empty($img)?[]:explode(';',$img);
         if ($moment->save()){
             if (!empty($img)) {
                 for ($i = 0; $i<count($img);$i++){
-                    $image = new MomentImage();
-                    $image->url = setUrl($img[$i]);
-                    $image->base_url = $img[$i];
-                    $image->moment_id = $moment->id;
-                    $image->save();
+                    if (!empty($img[$i])){
+                        $image = new MomentImage();
+                        $image->url = setUrl($img[$i]);
+                        $image->base_url = $img[$i];
+                        $image->moment_id = $moment->id;
+                        $image->save();
+                    }
+                }
+            }
+            if (!empty($mov)){
+                for ($j=0;$j<count($mov);$j++){
+                    if (!empty($mov[$j])){
+                        $movie = new MomentVideo();
+                        $movie->url = setUrl($mov[$j]);
+                        $movie->base_url = $mov[$j];
+                        $movie->moment_id = $moment->id;
+                        $movie->save();
+                    }
                 }
             }
             if ($moment->type==2){
