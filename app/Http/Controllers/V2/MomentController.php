@@ -15,7 +15,7 @@ class MomentController extends Controller
         $video = new MomentVideo();
         $video->moment_id = Input::get('moment_id');
         $video->base_url = Input::get('base_url');
-        $video->url = setUrl(Input::get('base_url'));
+        $video->url = setUrl(Input::get('base_url'),false);
         if ($video->save()){
             return response()->json([
                 'code'=>'200',

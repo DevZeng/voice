@@ -127,13 +127,7 @@ class MomentController extends Controller
                 $moments[$i]->userName = $user->nickname;
             }
             $moments[$i]->images = $moments[$i]->images()->get();
-            $videos = $moments[$i]->videos()->get();
-            if (!empty($videos)){
-                for ($i=0;$i<count($videos);$i++){
-                    $videos[$i]->url = setUrl($videos[$i]->base_url);
-                }
-            }
-            $moments[$i]->videos = $videos;
+            $moments[$i]->videos = $moments[$i]->videos()->get();
             $moments[$i]->commentCount = $moments[$i]->comments()->count();
             $moments[$i]->likeCount = $moments[$i]->likes()->count();
             $moments[$i]->isLike= $moments[$i]->likes()->where('auth_id','=',getUserId(Input::get('_token')))->count();

@@ -24,7 +24,7 @@ if (!function_exists('getUserId')){
     }
 }
 if(!function_exists('setUrl')){
-    function setUrl($path,$secure=false)
+    function setUrl($path,$secure=true)
     {
         if ($secure){
             return 'https://'.env('assets').'/'.$path;
