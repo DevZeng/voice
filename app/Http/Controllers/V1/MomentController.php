@@ -61,7 +61,7 @@ class MomentController extends Controller
                 for ($j=0;$j<count($mov);$j++){
                     if (!empty($mov[$j])){
                         $movie = new MomentVideo();
-                        $movie->url = setUrl($mov[$j]);
+                        $movie->url = setUrl($mov[$j],false);
                         $movie->base_url = $mov[$j];
                         $movie->moment_id = $moment->id;
                         $movie->save();
