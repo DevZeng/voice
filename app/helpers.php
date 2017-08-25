@@ -24,9 +24,13 @@ if (!function_exists('getUserId')){
     }
 }
 if(!function_exists('setUrl')){
-    function setUrl($path)
+    function setUrl($path,$secure=false)
     {
-        return env('assets').'/'.$path;
+        if ($secure){
+            return 'https://'.env('assets').'/'.$path;
+        }else{
+            return 'http://'.env('assets').'/'.$path;
+        }
     }
 }
 if(!function_exists('getTime')){
